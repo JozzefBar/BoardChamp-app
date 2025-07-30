@@ -212,7 +212,7 @@
                                               <map>
                                                 <entry key="color" value="8d2020" />
                                                 <entry key="fontFamily" value="Britannic Bold" />
-                                                <entry key="scalingPercent" value="110" />
+                                                <entry key="scalingPercent" value="80" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -287,6 +287,44 @@
                         <option name="values">
                           <map>
                             <entry key="outputIconType" value="TV_BANNER" />
+                          </map>
+                        </option>
+                      </PersistentState>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </PersistentState>
+          </value>
+        </entry>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState>
+              <option name="children">
+                <map>
+                  <entry key="vectorAssetStep">
+                    <value>
+                      <PersistentState>
+                        <option name="children">
+                          <map>
+                            <entry key="clipartAsset">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="url" value="jar:file:/C:/Users/jojob/AppData/Roaming/JetBrains/IntelliJIdea2024.3/plugins/android/lib/android.jar!/images/material/icons/materialicons/cancel/baseline_cancel_24.xml" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="color" value="743a3a" />
+                            <entry key="outputName" value="baseline_cancel_24" />
+                            <entry key="sourceFile" value="C:\Users\jojob\Desktop\kotlin\BoardChamp-app" />
                           </map>
                         </option>
                       </PersistentState>
