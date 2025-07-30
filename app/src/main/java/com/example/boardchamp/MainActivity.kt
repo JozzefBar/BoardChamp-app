@@ -1,6 +1,7 @@
 package com.example.boardchamp
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Button
@@ -9,11 +10,13 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.json.JSONArray
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var addButton: Button
+    private lateinit var historyButton: FloatingActionButton
     private lateinit var staticLayout: LinearLayout
     private val gameList = mutableListOf<String>() // uchovávaný zoznam hier
 
@@ -24,9 +27,11 @@ class MainActivity : AppCompatActivity() {
         // Inicializácia layout-u pre statické hry
         staticLayout = findViewById(R.id.linearLayoutStatic)
 
-        // Nastavenie tlačidla na pridanie novej hry
+        // Nastavenie tlačidiel
         addButton = findViewById(R.id.button)
+        historyButton = findViewById(R.id.btnHistory)
 
+        // Načítanie uložených hier a vytvorenie kariet
         gameList.addAll(loadGameList())
         gameList.forEach { gameName ->
             addNewGameCard(gameName)
@@ -35,31 +40,35 @@ class MainActivity : AppCompatActivity() {
         addButton.setOnClickListener {
             showAddGameDialog()
         }
+
+        historyButton.setOnClickListener {
+            openHistoryActivity()
+        }
     }
 
     private fun showAddGameDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Pridať novú hru")
+        builder.setTitle("Add New Game")
 
         // Vytvorenie EditText pre zadanie názvu hry
         val input = EditText(this)
-        input.hint = "Názov hry"
+        input.hint = "Game name"
         input.isSingleLine = true
         builder.setView(input)
 
-        builder.setPositiveButton("Pridať") { _, _ ->
+        builder.setPositiveButton("Add") { _, _ ->
             val gameName = input.text.toString().trim()
             if (gameName.isNotEmpty()) {
                 gameList.add(gameName)
                 saveGameList(gameList)
                 addNewGameCard(gameName)
-                Toast.makeText(this, "Hra '$gameName' bola pridaná", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Game '$gameName' added", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Zadajte názov hry", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please enter game name", Toast.LENGTH_SHORT).show()
             }
         }
 
-        builder.setNegativeButton("Zrušiť") { dialog, _ ->
+        builder.setNegativeButton("Cancel") { dialog, _ ->
             dialog.cancel()
         }
 
@@ -75,21 +84,21 @@ class MainActivity : AppCompatActivity() {
         val gameNameText = cardView.findViewById<android.widget.TextView>(R.id.gameNameText)
         gameNameText.text = gameName
 
-        // Nastavenie click listener-a pre play button
+        // Nastavenie click listener-a pre play button - otvori SecondActivity
         val playButton = cardView.findViewById<ImageButton>(R.id.gamePlayButton)
         playButton.setOnClickListener {
-            Toast.makeText(this, "Spúšťam: $gameName", Toast.LENGTH_SHORT).show()
+            openGameSession(gameName)
         }
 
-        // >>> Podržaním zobraz dialóg na odstránenie <<<
+        // >>> Podržaním zobraz dialóg na správu hry <<<
         cardView.setOnLongClickListener {
-            val options = arrayOf("Presunúť hore", "Presunúť dole", "Odstrániť")
+            val options = arrayOf("Move Up", "Move Down", "Remove")
             AlertDialog.Builder(this)
-                .setTitle("Možnosti pre \"$gameName\"")
+                .setTitle("Options for \"$gameName\"")
                 .setItems(options) { _, which ->
                     val index = staticLayout.indexOfChild(cardView)
                     when (which) {
-                        0 -> { // Hore
+                        0 -> { // Move Up
                             if (index > 0) {
                                 // Presun karty v UI
                                 staticLayout.removeViewAt(index)
@@ -100,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                                 saveGameList(gameList)
                             }
                         }
-                        1 -> { // Dole
+                        1 -> { // Move Down
                             if (index < staticLayout.childCount - 1) {
                                 staticLayout.removeViewAt(index)
                                 staticLayout.addView(cardView, index + 1)
@@ -109,11 +118,11 @@ class MainActivity : AppCompatActivity() {
                                 saveGameList(gameList)
                             }
                         }
-                        2 -> { // Odstrániť
+                        2 -> { // Remove
                             staticLayout.removeView(cardView)
-                            gameList.removeAt(index)  // Odstráni podľa indexu
+                            gameList.removeAt(index)
                             saveGameList(gameList)
-                            Toast.makeText(this, "Hra \"$gameName\" bola odstránená", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Game \"$gameName\" removed", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -121,11 +130,27 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        // Pridanie karty do layout-u (pred poslednou kartou s tlačidlom +)
-        // Posledná karta má index staticGamesLayout.childCount - 1
-        // Takže pridáme novú kartu na pozíciu childCount - 1 (pred poslednú)
-        val indexBeforeLast = staticLayout.childCount - 1
-        staticLayout.addView(cardView, indexBeforeLast)
+        // Pridanie karty do layout-u (pred posledný prvok - Add button)
+        val indexBeforeAddButton = maxOf(0, staticLayout.childCount - 1)
+        staticLayout.addView(cardView, indexBeforeAddButton)
+    }
+
+    // Nová funkcia na otvorenie game session
+    private fun openGameSession(gameName: String) {
+        val intent = Intent(this, SecondActivity::class.java)
+        intent.putExtra("GAME_NAME", gameName)
+        startActivity(intent)
+    }
+
+    // Nová funkcia na otvorenie histórie
+    private fun openHistoryActivity() {
+        try {
+            val intent = Intent(this, HistoryActivity::class.java)
+            startActivity(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error opening history: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun saveGameList(gameList: List<String>) {

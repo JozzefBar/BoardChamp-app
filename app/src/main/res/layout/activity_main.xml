@@ -22,7 +22,6 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- ScrollView pre všetky karty -->
-
     <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -37,9 +36,9 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="16dp">
+                android:paddingBottom="80dp">
 
-            <!-- Posledná karta s tlačidlom na pridanie -->
+            <!-- Add Game button karta -->
             <androidx.cardview.widget.CardView
                     android:id="@+id/buttonCard"
                     android:layout_width="180dp"
@@ -77,5 +76,18 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <!-- Malý History button v pravom dolnom rohu -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnHistory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@android:drawable/ic_menu_recent_history"
+            android:contentDescription="Game History"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:backgroundTint="@color/button"
+            app:tint="#FFFFFF" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
