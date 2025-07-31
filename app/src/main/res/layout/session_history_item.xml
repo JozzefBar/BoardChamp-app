@@ -23,13 +23,23 @@
 
             <TextView
                     android:id="@+id/tvGameName"
-                    android:layout_width="0dp"
+                    android:layout_width="291dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Scrabble"
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textStyle="bold"
                     android:textColor="#2E7D32"/>
+
+            <ImageButton
+                    android:id="@+id/btnEditSession"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:srcCompat="@android:drawable/ic_menu_edit"
+                    android:contentDescription="Edit session"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:tint="#2196F3"
+                    android:layout_marginRight="12dp"/>
 
             <ImageButton
                     android:id="@+id/btnDeleteSession"
@@ -39,6 +49,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="Delete session"
                     android:tint="#FF6B6B"/>
+
         </LinearLayout>
 
         <!-- Time range -->
@@ -87,7 +98,7 @@
                 android:layout_marginTop="4dp"
                 android:background="#F9F9F9"
                 android:padding="8dp"
-                android:visibility="gone"/>
+                />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

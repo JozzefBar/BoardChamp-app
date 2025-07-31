@@ -1,5 +1,7 @@
 package com.example.boardchamp
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.*
@@ -51,10 +53,8 @@ class HistoryActivity : AppCompatActivity() {
                 tvNoHistory.visibility = LinearLayout.GONE
                 historyContainer.visibility = LinearLayout.VISIBLE
 
-                // Zoradenie podľa dátumu (najnovšie navrchu)
+                historyContainer.removeAllViews() // Vyčistenie pred načítaním nových záznamov
                 val sortedSessions = sessions.sortedByDescending { it.gameDate.timeInMillis }
-
-                // Zoskupenie podľa dátumu
                 val groupedSessions = sortedSessions.groupBy { formatDate(it.gameDate) }
 
                 groupedSessions.forEach { (date, sessionsForDate) ->
@@ -97,11 +97,10 @@ class HistoryActivity : AppCompatActivity() {
             val tvPlayers = sessionView.findViewById<TextView>(R.id.tvPlayers)
             val tvNotes = sessionView.findViewById<TextView>(R.id.tvNotes)
             val btnDelete = sessionView.findViewById<ImageButton>(R.id.btnDeleteSession)
+            val btnEdit = sessionView.findViewById<ImageButton>(R.id.btnEditSession)
 
-            // Nastavenie údajov
             tvGameName.text = session.gameName
 
-            // Time range s check pre midnight crossing
             val dayDifference = session.endTime.get(Calendar.DAY_OF_YEAR) - session.startTime.get(Calendar.DAY_OF_YEAR)
             val timeRange = if (dayDifference > 0) {
                 "${formatTime(session.startTime)} - ${formatTime(session.endTime)} (+1 day)"
@@ -110,13 +109,11 @@ class HistoryActivity : AppCompatActivity() {
             }
             tvTimeRange.text = timeRange
 
-            // Duration calculation
             val durationMillis = session.endTime.timeInMillis - session.startTime.timeInMillis
             val hours = durationMillis / (1000 * 60 * 60)
             val minutes = (durationMillis % (1000 * 60 * 60)) / (1000 * 60)
             tvDuration.text = "Duration: ${hours}h ${minutes}m"
 
-            // Players info
             val playersText = if (session.players.isNotEmpty()) {
                 session.players.joinToString(", ") { "${it.name} (${it.score}pts)" }
             } else {
@@ -124,7 +121,6 @@ class HistoryActivity : AppCompatActivity() {
             }
             tvPlayers.text = "Players: $playersText"
 
-            // Notes
             if (session.notes.isNotEmpty()) {
                 tvNotes.text = "Notes: ${session.notes}"
                 tvNotes.visibility = LinearLayout.VISIBLE
@@ -132,9 +128,30 @@ class HistoryActivity : AppCompatActivity() {
                 tvNotes.visibility = LinearLayout.GONE
             }
 
-            // Delete button
             btnDelete.setOnClickListener {
                 deleteSession(session.id)
+            }
+
+            btnEdit.setOnClickListener {
+                val intent = Intent(this, EditSessionActivity::class.java).apply {
+                    putExtra("session_id", session.id)
+                    putExtra("game_name", session.gameName)
+                    putExtra("game_date", session.gameDate.timeInMillis)
+                    putExtra("start_time", session.startTime.timeInMillis)
+                    putExtra("end_time", session.endTime.timeInMillis)
+                    putExtra("notes", session.notes)
+                    val playersJson = JSONArray().apply {
+                        session.players.forEach { player ->
+                            put(JSONObject().apply {
+                                put("name", player.name)
+                                put("score", player.score)
+                                put("position", player.position)
+                            })
+                        }
+                    }
+                    putExtra("players", playersJson.toString())
+                }
+                startActivityForResult(intent, 1)
             }
 
             historyContainer.addView(sessionView)
@@ -151,11 +168,7 @@ class HistoryActivity : AppCompatActivity() {
 
             if (sessions.size < initialSize) {
                 saveSessionsToHistory(sessions)
-
-                // Refresh display
-                historyContainer.removeAllViews()
                 loadAndDisplayHistory()
-
                 Toast.makeText(this, "Session deleted", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(this, "Session not found", Toast.LENGTH_SHORT).show()
@@ -168,7 +181,6 @@ class HistoryActivity : AppCompatActivity() {
 
     private fun loadSessionsFromHistory(): List<GameSession> {
         val sessions = mutableListOf<GameSession>()
-
         try {
             val sharedPref = getSharedPreferences("game_data", MODE_PRIVATE)
             val json = sharedPref.getString("game_sessions", null)
@@ -178,54 +190,41 @@ class HistoryActivity : AppCompatActivity() {
                 for (i in 0 until jsonArray.length()) {
                     try {
                         val sessionJson = jsonArray.getJSONObject(i)
-
-                        // Parse players
                         val players = mutableListOf<PlayerData>()
                         if (sessionJson.has("players")) {
                             val playersArray = sessionJson.getJSONArray("players")
                             for (j in 0 until playersArray.length()) {
                                 try {
                                     val playerJson = playersArray.getJSONObject(j)
-                                    players.add(
-                                        PlayerData(
-                                            name = playerJson.optString("name", "Unknown"),
-                                            score = playerJson.optInt("score", 0),
-                                            position = playerJson.optInt("position", 0)
-                                        )
-                                    )
+                                    players.add(PlayerData(
+                                        name = playerJson.optString("name", "Unknown"),
+                                        score = playerJson.optInt("score", 0),
+                                        position = playerJson.optInt("position", 0)
+                                    ))
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                 }
                             }
                         }
 
-                        // Create session
                         val session = GameSession(
                             id = sessionJson.optLong("id", System.currentTimeMillis()),
                             gameName = sessionJson.optString("gameName", "Unknown Game"),
-                            gameDate = Calendar.getInstance().apply {
-                                timeInMillis = sessionJson.optLong("gameDate", System.currentTimeMillis())
-                            },
-                            startTime = Calendar.getInstance().apply {
-                                timeInMillis = sessionJson.optLong("startTime", System.currentTimeMillis())
-                            },
-                            endTime = Calendar.getInstance().apply {
-                                timeInMillis = sessionJson.optLong("endTime", System.currentTimeMillis())
-                            },
+                            gameDate = Calendar.getInstance().apply { timeInMillis = sessionJson.optLong("gameDate", System.currentTimeMillis()) },
+                            startTime = Calendar.getInstance().apply { timeInMillis = sessionJson.optLong("startTime", System.currentTimeMillis()) },
+                            endTime = Calendar.getInstance().apply { timeInMillis = sessionJson.optLong("endTime", System.currentTimeMillis()) },
                             players = players,
                             notes = sessionJson.optString("notes", "")
                         )
                         sessions.add(session)
                     } catch (e: Exception) {
                         e.printStackTrace()
-                        // Pokračuj s ďalšími sessions aj keď jedna je poškodená
                     }
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
         return sessions
     }
 
@@ -233,8 +232,6 @@ class HistoryActivity : AppCompatActivity() {
         try {
             val sharedPref = getSharedPreferences("game_data", MODE_PRIVATE)
             val editor = sharedPref.edit()
-
-            // Konvertuj na JSON array
             val jsonArray = JSONArray()
             sessions.forEach { gameSession ->
                 try {
@@ -245,8 +242,6 @@ class HistoryActivity : AppCompatActivity() {
                         put("startTime", gameSession.startTime.timeInMillis)
                         put("endTime", gameSession.endTime.timeInMillis)
                         put("notes", gameSession.notes)
-
-                        // Players array
                         val playersArray = JSONArray()
                         gameSession.players.forEach { player ->
                             val playerJson = JSONObject().apply {
@@ -263,8 +258,6 @@ class HistoryActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
-
-            // Ulož do SharedPreferences
             editor.putString("game_sessions", jsonArray.toString())
             editor.apply()
         } catch (e: Exception) {
@@ -291,9 +284,47 @@ class HistoryActivity : AppCompatActivity() {
         }
     }
 
-    // Data classes (same as SecondActivity)
-    data class PlayerData(val name: String, val score: Int, val position: Int)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
+            val updatedSessionId = data.getLongExtra("session_id", -1L)
+            if (updatedSessionId != -1L) {
+                val sessions = loadSessionsFromHistory().toMutableList()
+                val sessionIndex = sessions.indexOfFirst { it.id == updatedSessionId }
+                if (sessionIndex != -1) {
+                    val updatedGameDate = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("game_date", sessions[sessionIndex].gameDate.timeInMillis) }
+                    val updatedStartTime = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("start_time", sessions[sessionIndex].startTime.timeInMillis) }
+                    val updatedEndTime = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("end_time", sessions[sessionIndex].endTime.timeInMillis) }
+                    val updatedNotes = data.getStringExtra("notes") ?: sessions[sessionIndex].notes
 
+                    sessions[sessionIndex] = sessions[sessionIndex].copy(
+                        gameDate = updatedGameDate,
+                        startTime = updatedStartTime,
+                        endTime = updatedEndTime,
+                        notes = updatedNotes
+                    )
+                    saveSessionsToHistory(sessions)
+                    loadAndDisplayHistory() // Aktualizácia UI
+                } else {
+                    // Pridanie novej session, ak neexistuje (málo pravdepodobné)
+                    val newSession = GameSession(
+                        id = updatedSessionId,
+                        gameName = data.getStringExtra("game_name") ?: "Unknown Game",
+                        gameDate = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("game_date", System.currentTimeMillis()) },
+                        startTime = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("start_time", System.currentTimeMillis()) },
+                        endTime = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("end_time", System.currentTimeMillis()) },
+                        players = emptyList(),
+                        notes = data.getStringExtra("notes") ?: ""
+                    )
+                    sessions.add(newSession)
+                    saveSessionsToHistory(sessions)
+                    loadAndDisplayHistory()
+                }
+            }
+        }
+    }
+
+    data class PlayerData(val name: String, val score: Int, val position: Int)
     data class GameSession(
         val id: Long,
         val gameName: String,
