@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <!-- Nadpis -->
+    <!-- Header -->
     <TextView
             android:id="@+id/textViewHeader"
             android:layout_width="0dp"
@@ -21,7 +21,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- ScrollView pre všetky karty -->
+    <!-- ScrollView for all cards -->
     <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="80dp">
 
-            <!-- Add Game button karta -->
+            <!-- Add Game button card -->
             <androidx.cardview.widget.CardView
                     android:id="@+id/buttonCard"
                     android:layout_width="180dp"
@@ -77,7 +77,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Malý History button v pravom dolnom rohu -->
+    <!-- History button in right bottom corner -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnHistory"
             android:layout_width="wrap_content"
@@ -88,6 +88,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:backgroundTint="@color/button"
-            app:tint="#FFFFFF" />
+            app:tint="#FFFFFF"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

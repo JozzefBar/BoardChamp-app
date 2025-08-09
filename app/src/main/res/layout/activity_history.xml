@@ -22,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- ScrollView pre históriu -->
+    <!-- ScrollView for History -->
     <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-            <!-- Container pre sessions -->
+            <!-- Container for sessions -->
             <LinearLayout
                     android:id="@+id/historyContainer"
                     android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                     android:orientation="vertical">
             </LinearLayout>
 
-            <!-- Placeholder pre prázdnu históriu -->
+            <!-- Placeholder for empty history -->
             <TextView
                     android:id="@+id/tvNoHistory"
                     android:text="No game sessions recorded yet.\nStart playing and your sessions will appear here!"

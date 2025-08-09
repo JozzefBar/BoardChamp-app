@@ -1,11 +1,15 @@
 package com.example.boardchamp
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -53,7 +57,7 @@ class HistoryActivity : AppCompatActivity() {
                 tvNoHistory.visibility = LinearLayout.GONE
                 historyContainer.visibility = LinearLayout.VISIBLE
 
-                historyContainer.removeAllViews() // Vyčistenie pred načítaním nových záznamov
+                historyContainer.removeAllViews()
                 val sortedSessions = sessions.sortedByDescending { it.gameDate.timeInMillis }
                 val groupedSessions = sortedSessions.groupBy { formatDate(it.gameDate) }
 
@@ -94,7 +98,7 @@ class HistoryActivity : AppCompatActivity() {
             val tvGameName = sessionView.findViewById<TextView>(R.id.tvGameName)
             val tvTimeRange = sessionView.findViewById<TextView>(R.id.tvTimeRange)
             val tvDuration = sessionView.findViewById<TextView>(R.id.tvDuration)
-            val tvPlayers = sessionView.findViewById<TextView>(R.id.tvPlayers)
+            val playersListContainer = sessionView.findViewById<LinearLayout>(R.id.playersListContainer)
             val tvNotes = sessionView.findViewById<TextView>(R.id.tvNotes)
             val btnDelete = sessionView.findViewById<ImageButton>(R.id.btnDeleteSession)
             val btnEdit = sessionView.findViewById<ImageButton>(R.id.btnEditSession)
@@ -114,18 +118,14 @@ class HistoryActivity : AppCompatActivity() {
             val minutes = (durationMillis % (1000 * 60 * 60)) / (1000 * 60)
             tvDuration.text = "Duration: ${hours}h ${minutes}m"
 
-            val playersText = if (session.players.isNotEmpty()) {
-                session.players.joinToString(", ") { "${it.name} (${it.score}pts)" }
-            } else {
-                "No players recorded"
-            }
-            tvPlayers.text = "Players: $playersText"
+            // We will fill the player list with a new layout
+            populatePlayersInCard(playersListContainer, session.players)
 
             if (session.notes.isNotEmpty()) {
                 tvNotes.text = "Notes: ${session.notes}"
-                tvNotes.visibility = LinearLayout.VISIBLE
+                tvNotes.visibility = View.VISIBLE
             } else {
-                tvNotes.visibility = LinearLayout.GONE
+                tvNotes.visibility = View.GONE
             }
 
             btnDelete.setOnClickListener {
@@ -158,6 +158,118 @@ class HistoryActivity : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun populatePlayersInCard(playersContainer: LinearLayout, players: List<PlayerData>) {
+        playersContainer.removeAllViews()
+
+        if (players.isEmpty()) {
+            val noPlayersView = TextView(this).apply {
+                text = "No players recorded"
+                textSize = 14f
+                setTextColor(ContextCompat.getColor(this@HistoryActivity, android.R.color.darker_gray))
+                gravity = Gravity.CENTER
+                setPadding(0, dpToPx(8), 0, dpToPx(8))
+            }
+            playersContainer.addView(noPlayersView)
+            return
+        }
+
+        // We will rank players by position (1st place, 2nd place, etc.)
+        val sortedPlayers = players.sortedBy { it.position }
+
+        sortedPlayers.forEachIndexed { index, player ->
+            val playerView = createPlayerItemView(player)
+            playersContainer.addView(playerView)
+
+            // We will add a divider between players (except the last one)
+            if (index < sortedPlayers.size - 1) {
+                val divider = createDivider()
+                playersContainer.addView(divider)
+            }
+        }
+    }
+
+    private fun createPlayerItemView(player: PlayerData): LinearLayout {
+        val playerLayout = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            setPadding(0, dpToPx(6), 0, dpToPx(6))
+            gravity = Gravity.CENTER_VERTICAL
+        }
+
+        // Position circle
+        val positionView = TextView(this).apply {
+            text = player.position.toString()
+            textSize = 12f
+            setTextColor(Color.WHITE)
+            gravity = Gravity.CENTER
+            layoutParams = LinearLayout.LayoutParams(
+                dpToPx(24),
+                dpToPx(24)
+            ).apply {
+                setMargins(0, 0, dpToPx(8), 0)
+            }
+
+            // Set background based on position
+            background = when(player.position) {
+                1 -> ContextCompat.getDrawable(this@HistoryActivity, R.drawable.position_circle_gold)
+                2 -> ContextCompat.getDrawable(this@HistoryActivity, R.drawable.position_circle_silver)
+                3 -> ContextCompat.getDrawable(this@HistoryActivity, R.drawable.position_circle_bronze)
+                else -> ContextCompat.getDrawable(this@HistoryActivity, R.drawable.position_circle_default)
+            }
+
+            setTypeface(null, android.graphics.Typeface.BOLD)
+        }
+
+        // Player name
+        val nameView = TextView(this).apply {
+            text = player.name
+            textSize = 14f
+            setTextColor(ContextCompat.getColor(this@HistoryActivity, android.R.color.black))
+            layoutParams = LinearLayout.LayoutParams(
+                0,
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                1f
+            )
+        }
+
+        // Player score
+        val scoreView = TextView(this).apply {
+            text = "${player.score} pts"
+            textSize = 14f
+            setTextColor(ContextCompat.getColor(this@HistoryActivity, android.R.color.holo_green_dark))
+            setTypeface(null, android.graphics.Typeface.BOLD)
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+        }
+
+        playerLayout.addView(positionView)
+        playerLayout.addView(nameView)
+        playerLayout.addView(scoreView)
+
+        return playerLayout
+    }
+
+    private fun createDivider(): View {
+        return View(this).apply {
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                dpToPx(1)
+            ).apply {
+                setMargins(0, dpToPx(2), 0, dpToPx(2))
+            }
+            setBackgroundColor(ContextCompat.getColor(this@HistoryActivity, android.R.color.darker_gray))
+        }
+    }
+
+    private fun dpToPx(dp: Int): Int {
+        return (dp * resources.displayMetrics.density).toInt()
     }
 
     private fun deleteSession(sessionId: Long) {
@@ -304,9 +416,9 @@ class HistoryActivity : AppCompatActivity() {
                         notes = updatedNotes
                     )
                     saveSessionsToHistory(sessions)
-                    loadAndDisplayHistory() // Aktualizácia UI
+                    loadAndDisplayHistory() // UI update
                 } else {
-                    // Pridanie novej session, ak neexistuje (málo pravdepodobné)
+                    // Adding a new session if it doesn't exist (unlikely)
                     val newSession = GameSession(
                         id = updatedSessionId,
                         gameName = data.getStringExtra("game_name") ?: "Unknown Game",

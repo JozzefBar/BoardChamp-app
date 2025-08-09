@@ -14,7 +14,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-        <!-- Header s názvom hry a delete button -->
+        <!-- Header with the name a buttons -->
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
 
             <TextView
                     android:id="@+id/tvGameName"
-                    android:layout_width="291dp"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Scrabble"
@@ -35,7 +35,7 @@
                     android:id="@+id/btnEditSession"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    app:srcCompat="@android:drawable/ic_menu_edit"
+                    android:src="@android:drawable/ic_menu_edit"
                     android:contentDescription="Edit session"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:tint="#2196F3"
@@ -62,7 +62,7 @@
                 android:textColor="#666666"
                 android:layout_marginBottom="4dp"
                 android:drawablePadding="8dp"
-                app:drawableStartCompat="@android:drawable/ic_menu_recent_history"/>
+                android:drawableStart="@android:drawable/ic_menu_recent_history"/>
 
         <!-- Duration -->
         <TextView
@@ -72,19 +72,30 @@
                 android:text="Duration: 2h 15m"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#888888"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="12dp"/>
 
-        <!-- Players info -->
+        <!-- Players section header -->
         <TextView
-                android:id="@+id/tvPlayers"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Players: John (85pts), Mary (72pts), Bob (91pts)"
+                android:text="Players:"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textStyle="bold"
                 android:textColor="#333333"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="6dp"
                 android:drawablePadding="8dp"
-                app:drawableStartCompat="@android:drawable/ic_menu_my_calendar"/>
+                android:drawableStart="@android:drawable/ic_menu_my_calendar"/>
+
+        <!-- Players list container -->
+        <LinearLayout
+                android:id="@+id/playersListContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="8dp"
+                android:background="#F8F8F8"
+                android:padding="8dp">
+        </LinearLayout>
 
         <!-- Notes (optional) -->
         <TextView
@@ -98,7 +109,7 @@
                 android:layout_marginTop="4dp"
                 android:background="#F9F9F9"
                 android:padding="8dp"
-                />
+                android:visibility="gone"/>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -1,6 +1,5 @@
 package com.example.boardchamp
 
-import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -12,7 +11,7 @@ import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
-class SecondActivity : AppCompatActivity() {
+class SessionActivity : AppCompatActivity() {
 
     private lateinit var gameTitle: TextView
     private lateinit var btnSelectDate: Button
@@ -33,9 +32,9 @@ class SecondActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.second_activity)
+        setContentView(R.layout.session_activity)
 
-        // Získanie názvu hry z Intent
+        // Getting the game name from an Intent
         gameName = intent.getStringExtra("GAME_NAME") ?: "Unknown Game"
 
         initializeViews()
@@ -82,7 +81,7 @@ class SecondActivity : AppCompatActivity() {
                 }
                 btnSelectDate.text = formatDate(gameDate!!)
 
-                // Aktualizovať časy s novým dátumom
+                //Update times with new date
                 updateTimesWithDate()
             },
             calendar.get(Calendar.YEAR),
@@ -103,7 +102,7 @@ class SecondActivity : AppCompatActivity() {
             this,
             { _, hourOfDay, minute ->
                 val selectedTime = Calendar.getInstance().apply {
-                    // Nastavenie dátumu z vybraného gameDate
+                    // Setting the date from the selected gameDate
                     set(Calendar.YEAR, gameDate!!.get(Calendar.YEAR))
                     set(Calendar.MONTH, gameDate!!.get(Calendar.MONTH))
                     set(Calendar.DAY_OF_MONTH, gameDate!!.get(Calendar.DAY_OF_MONTH))
@@ -116,29 +115,14 @@ class SecondActivity : AppCompatActivity() {
                 if (isStartTime) {
                     startTime = selectedTime
                     btnStartTime.text = formatTime(selectedTime)
-                    // Ak už máme end time a je menší ako start time, automaticky ho posunieme na ďalší deň
-                    endTime?.let { endT ->
-                        if (endT.get(Calendar.HOUR_OF_DAY) < hourOfDay ||
-                            (endT.get(Calendar.HOUR_OF_DAY) == hourOfDay && endT.get(Calendar.MINUTE) <= minute)) {
-                            endT.add(Calendar.DAY_OF_MONTH, 1)
-                            btnEndTime.text = "${formatTime(endT)} (+1 day)"
-                        }
+                    // If we already have an end time, we need to check it
+                    endTime?.let {
+                        updateEndTimeDisplay()
                     }
                 } else {
+                    // For end time we set the time without modifying the day
                     endTime = selectedTime
-                    // Ak je end time menší ako start time, automaticky ho posunieme na ďalší deň
-                    startTime?.let { startT ->
-                        if (hourOfDay < startT.get(Calendar.HOUR_OF_DAY) ||
-                            (hourOfDay == startT.get(Calendar.HOUR_OF_DAY) && minute <= startT.get(Calendar.MINUTE))) {
-                            selectedTime.add(Calendar.DAY_OF_MONTH, 1)
-                            btnEndTime.text = "${formatTime(selectedTime)} (+1 day)"
-                        } else {
-                            btnEndTime.text = formatTime(selectedTime)
-                        }
-                    } ?: run {
-                        btnEndTime.text = formatTime(selectedTime)
-                    }
-                    endTime = selectedTime
+                    updateEndTimeDisplay()
                 }
 
                 calculateDuration()
@@ -150,36 +134,51 @@ class SecondActivity : AppCompatActivity() {
         timePickerDialog.show()
     }
 
+    private fun updateEndTimeDisplay() {
+        endTime?.let { endT ->
+            startTime?.let { startT ->
+                //Reset end time to original day
+                endT.set(Calendar.YEAR, gameDate!!.get(Calendar.YEAR))
+                endT.set(Calendar.MONTH, gameDate!!.get(Calendar.MONTH))
+                endT.set(Calendar.DAY_OF_MONTH, gameDate!!.get(Calendar.DAY_OF_MONTH))
+
+                val endHour = endT.get(Calendar.HOUR_OF_DAY)
+                val endMinute = endT.get(Calendar.MINUTE)
+                val startHour = startT.get(Calendar.HOUR_OF_DAY)
+                val startMinute = startT.get(Calendar.MINUTE)
+
+                //Compare times and determine if the end time should be for the next day
+                val isNextDay = endHour < startHour || (endHour == startHour && endMinute <= startMinute)
+
+                if (isNextDay) {
+                    endT.add(Calendar.DAY_OF_MONTH, 1)
+                    btnEndTime.text = "${formatTime(endT)} (+1 day)"
+                } else {
+                    btnEndTime.text = formatTime(endT)
+                }
+            } ?: run {
+                btnEndTime.text = formatTime(endT)
+            }
+        }
+    }
+
     private fun updateTimesWithDate() {
-        // Ak už máme nastavené časy, aktualizujme ich s novým dátumom
+        // If we already have times set, let's update them with the new date
         startTime?.let { time ->
             val originalHour = time.get(Calendar.HOUR_OF_DAY)
             val originalMinute = time.get(Calendar.MINUTE)
+
             time.set(Calendar.YEAR, gameDate!!.get(Calendar.YEAR))
             time.set(Calendar.MONTH, gameDate!!.get(Calendar.MONTH))
             time.set(Calendar.DAY_OF_MONTH, gameDate!!.get(Calendar.DAY_OF_MONTH))
+            time.set(Calendar.HOUR_OF_DAY, originalHour)
+            time.set(Calendar.MINUTE, originalMinute)
+
             btnStartTime.text = formatTime(time)
         }
 
-        endTime?.let { time ->
-            val originalHour = time.get(Calendar.HOUR_OF_DAY)
-            val originalMinute = time.get(Calendar.MINUTE)
-            time.set(Calendar.YEAR, gameDate!!.get(Calendar.YEAR))
-            time.set(Calendar.MONTH, gameDate!!.get(Calendar.MONTH))
-            time.set(Calendar.DAY_OF_MONTH, gameDate!!.get(Calendar.DAY_OF_MONTH))
-
-            // Skontrolovať, či má byť end time na ďalší deň
-            startTime?.let { startT ->
-                if (originalHour < startT.get(Calendar.HOUR_OF_DAY) ||
-                    (originalHour == startT.get(Calendar.HOUR_OF_DAY) && originalMinute <= startT.get(Calendar.MINUTE))) {
-                    time.add(Calendar.DAY_OF_MONTH, 1)
-                    btnEndTime.text = "${formatTime(time)} (+1 day)"
-                } else {
-                    btnEndTime.text = formatTime(time)
-                }
-            } ?: run {
-                btnEndTime.text = formatTime(time)
-            }
+        endTime?.let {
+            updateEndTimeDisplay()
         }
 
         calculateDuration()
@@ -195,11 +194,6 @@ class SecondActivity : AppCompatActivity() {
         return format.format(calendar.time)
     }
 
-    private fun formatDateTime(calendar: Calendar): String {
-        val format = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
-        return format.format(calendar.time)
-    }
-
     private fun calculateDuration() {
         if (startTime != null && endTime != null) {
             val durationMillis = endTime!!.timeInMillis - startTime!!.timeInMillis
@@ -211,7 +205,7 @@ class SecondActivity : AppCompatActivity() {
                 val hours = durationMillis / (1000 * 60 * 60)
                 val minutes = (durationMillis % (1000 * 60 * 60)) / (1000 * 60)
 
-                // Ak je end time na ďalší deň, pridáme info do duration
+                // If the end time is for the next day, we add the info to the duration
                 val dayDifference = endTime!!.get(Calendar.DAY_OF_YEAR) - startTime!!.get(Calendar.DAY_OF_YEAR)
                 val durationText = if (dayDifference > 0) {
                     "Duration: ${hours}h ${minutes}m (crosses midnight)"
@@ -232,26 +226,44 @@ class SecondActivity : AppCompatActivity() {
         val etPlayerName = playerView.findViewById<EditText>(R.id.etPlayerName)
         val btnRemovePlayer = playerView.findViewById<ImageButton>(R.id.btnRemovePlayer)
 
-        // Najprv skryjeme placeholder ak je viditeľný
+        // First, we hide the placeholder if it is visible.
         if (tvNoPlayers.visibility == LinearLayout.VISIBLE) {
             tvNoPlayers.visibility = LinearLayout.GONE
         }
 
-        // Teraz počítaj len skutočných hráčov (bez placeholder TextView)
+        //Now count only real players (without placeholder TextView)
         val actualPlayerCount = getActualPlayerCount()
         etPlayerName.hint = "Player ${actualPlayerCount + 1}"
 
-        // Nastavenie odstránenia hráča
+        //Player removal settings
         btnRemovePlayer.setOnClickListener {
             playersContainer.removeView(playerView)
             updatePlayersVisibility()
+            updatePlayerHints()
         }
 
         playersContainer.addView(playerView)
     }
 
+    private fun updatePlayerHints() {
+        var playerNumber = 1
+        for (i in 0 until playersContainer.childCount) {
+            val child = playersContainer.getChildAt(i)
+
+            // Skip tvNoPlayers TextView
+            if (child == tvNoPlayers) continue
+
+            val etPlayerName = child.findViewById<EditText>(R.id.etPlayerName)
+            // If EditText is empty, update hint
+            if (etPlayerName.text.toString().trim().isEmpty()) {
+                etPlayerName.hint = "Player $playerNumber"
+            }
+            playerNumber++
+        }
+    }
+
     private fun getActualPlayerCount(): Int {
-        // Počítaj len View ktoré nie są tvNoPlayers TextView
+        //Only count Views that are not tvNoPlayers TextView
         var count = 0
         for (i in 0 until playersContainer.childCount) {
             val child = playersContainer.getChildAt(i)
@@ -272,7 +284,7 @@ class SecondActivity : AppCompatActivity() {
     }
 
     private fun saveGameSession() {
-        // Validácia údajov
+        // Data validation
         if (gameDate == null) {
             Toast.makeText(this, "Please select a date", Toast.LENGTH_SHORT).show()
             return
@@ -288,12 +300,12 @@ class SecondActivity : AppCompatActivity() {
             return
         }
 
-        // Zbieranie údajov o hráčoch
+        // Collecting player data
         val players = mutableListOf<PlayerData>()
         for (i in 0 until playersContainer.childCount) {
             val playerView = playersContainer.getChildAt(i)
 
-            // Preskočiť tvNoPlayers TextView
+            //Skip tvNoPlayers TextView
             if (playerView == tvNoPlayers) continue
 
             val name = playerView.findViewById<EditText>(R.id.etPlayerName).text.toString().trim()
@@ -311,7 +323,7 @@ class SecondActivity : AppCompatActivity() {
             players.add(PlayerData(name, score, position))
         }
 
-        // Vytvorenie session objektu
+        //Creating a session object
         val notes = etNotes.text.toString()
         val session = GameSession(
             id = System.currentTimeMillis(), // Unique ID based on timestamp
@@ -323,16 +335,16 @@ class SecondActivity : AppCompatActivity() {
             notes = notes
         )
 
-        // Uloženie do SharedPreferences
+        //Saving to SharedPreferences
         saveSessionToHistory(session)
 
-        // Zobrazenie úspešnej správy s detailmi
+        // View success message with details
         val sessionInfo = StringBuilder().apply {
             appendLine("Game: ${session.gameName}")
             appendLine("Date: ${formatDate(session.gameDate)}")
             append("Time: ${formatTime(session.startTime)}")
 
-            // Ak je end time na ďalší deň, ukážeme to
+            //If the end time is for the next day, we will show it.
             val dayDifference = session.endTime.get(Calendar.DAY_OF_YEAR) - session.startTime.get(Calendar.DAY_OF_YEAR)
             if (dayDifference > 0) {
                 appendLine(" - ${formatTime(session.endTime)} (+1 day)")
@@ -351,14 +363,14 @@ class SecondActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("game_data", MODE_PRIVATE)
         val editor = sharedPref.edit()
 
-        // Načítaj existujúce sessions
+        //Load existing sessions
         val existingSessions = loadSessionsFromHistory()
         val updatedSessions = existingSessions.toMutableList()
 
-        // Pridaj novú session
+        //Add a new session
         updatedSessions.add(session)
 
-        // Konvertuj na JSON array
+        //Convert to JSON array
         val jsonArray = JSONArray()
         updatedSessions.forEach { gameSession ->
             val sessionJson = JSONObject().apply {
@@ -384,7 +396,7 @@ class SecondActivity : AppCompatActivity() {
             jsonArray.put(sessionJson)
         }
 
-        // Ulož do SharedPreferences
+        //Save to SharedPreferences
         editor.putString("game_sessions", jsonArray.toString())
         editor.apply()
     }
@@ -440,7 +452,7 @@ class SecondActivity : AppCompatActivity() {
         return sessions
     }
 
-    // Data classes pre uchovávanie údajov
+    // Data classes for data storage
     data class PlayerData(val name: String, val score: Int, val position: Int)
 
     data class GameSession(

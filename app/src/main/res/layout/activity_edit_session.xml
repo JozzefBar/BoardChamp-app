@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-            <!-- Dátum a čas -->
+            <!-- Date and Time -->
             <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Hráči -->
+            <!-- Players -->
             <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -153,7 +153,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Poznámky -->
+            <!-- Notes -->
             <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -189,7 +189,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Spodné tlačidlá -->
+    <!-- Bottom buttons -->
     <LinearLayout
             android:id="@+id/buttonContainer"
             android:layout_width="0dp"

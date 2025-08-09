@@ -22,9 +22,9 @@
             </intent-filter>
         </activity>
 
-        <!-- Second Activity -->
+        <!-- Session Activity -->
         <activity
-                android:name=".SecondActivity"
+                android:name=".SessionActivity"
                 android:exported="false"
                 android:parentActivityName=".MainActivity">
             <!-- Parent activity meta-data to support 4.0 and lower -->
@@ -36,13 +36,25 @@
         <!-- History activity -->
         <activity
                 android:name=".HistoryActivity"
-                android:exported="false" />
+                android:exported="false"
+                android:parentActivityName=".MainActivity">
 
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".MainActivity" />
+
+        </activity>
         <!-- Edit activity -->
         <activity
                 android:name=".EditSessionActivity"
-                android:exported="false" />
+                android:exported="false"
+                android:parentActivityName=".HistoryActivity" >
 
+        <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".HistoryActivity" />
+
+        </activity>
     </application>
 
 </manifest>

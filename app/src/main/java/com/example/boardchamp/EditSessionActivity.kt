@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -69,8 +68,6 @@ class EditSessionActivity : AppCompatActivity() {
     private fun loadSessionData() {
         val intent = intent
         if (intent != null && intent.hasExtra("session_id")) {
-            val sessionId = intent.getLongExtra("session_id", System.currentTimeMillis())
-            val gameName = intent.getStringExtra("game_name") ?: "Unknown Game"
             val gameDateMillis = intent.getLongExtra("game_date", System.currentTimeMillis())
             val startTimeMillis = intent.getLongExtra("start_time", System.currentTimeMillis())
             val endTimeMillis = intent.getLongExtra("end_time", System.currentTimeMillis())
@@ -159,7 +156,7 @@ class EditSessionActivity : AppCompatActivity() {
         val resultIntent = Intent()
         val sessionId = intent.extras?.getLong("session_id") ?: System.currentTimeMillis()
         resultIntent.putExtra("session_id", sessionId)
-        resultIntent.putExtra("game_name", "Game Name") // Dynamický gameName môžeš pridať neskôr
+        resultIntent.putExtra("game_name", "Game Name")
         resultIntent.putExtra("game_date", gameDate.timeInMillis)
         resultIntent.putExtra("start_time", Calendar.getInstance().apply {
             set(Calendar.HOUR_OF_DAY, startHour)

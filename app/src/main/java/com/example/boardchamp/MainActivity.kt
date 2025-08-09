@@ -24,14 +24,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Inicializácia layout-u pre statické hry
+        // Layout initialization for static games
         staticLayout = findViewById(R.id.linearLayoutStatic)
 
-        // Nastavenie tlačidiel
+        // Setting the buttons
         addButton = findViewById(R.id.button)
         historyButton = findViewById(R.id.btnHistory)
 
-        // Načítanie uložených hier a vytvorenie kariet
+        // Loading saved games and creating cards
         gameList.addAll(loadGameList())
         gameList.forEach { gameName ->
             addNewGameCard(gameName)
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Add New Game")
 
-        // Vytvorenie EditText pre zadanie názvu hry
+        // Creating an EditText to enter the game name
         val input = EditText(this)
         input.hint = "Game name"
         input.isSingleLine = true
@@ -76,21 +76,21 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addNewGameCard(gameName: String) {
-        // Vytvorenie nového CardView-u z layout-u
+        //Creating a new CardView from a layout
         val inflater = LayoutInflater.from(this)
         val cardView = inflater.inflate(R.layout.game_card_layout, staticLayout, false)
 
-        // Nastavenie názvu hry
+        //Setting the game name
         val gameNameText = cardView.findViewById<android.widget.TextView>(R.id.gameNameText)
         gameNameText.text = gameName
 
-        // Nastavenie click listener-a pre play button - otvori SecondActivity
+        //Setting up a click listener for the play button - opens a SessionActivity
         val playButton = cardView.findViewById<ImageButton>(R.id.gamePlayButton)
         playButton.setOnClickListener {
             openGameSession(gameName)
         }
 
-        // >>> Podržaním zobraz dialóg na správu hry <<<
+        // Hold to display game management dialog
         cardView.setOnLongClickListener {
             val options = arrayOf("Move Up", "Move Down", "Remove")
             AlertDialog.Builder(this)
@@ -100,10 +100,10 @@ class MainActivity : AppCompatActivity() {
                     when (which) {
                         0 -> { // Move Up
                             if (index > 0) {
-                                // Presun karty v UI
+                                // Moving a card in the UI
                                 staticLayout.removeViewAt(index)
                                 staticLayout.addView(cardView, index - 1)
-                                // Presun v zozname hier
+                                //Move in the game list
                                 val movedGame = gameList.removeAt(index)
                                 gameList.add(index - 1, movedGame)
                                 saveGameList(gameList)
@@ -130,19 +130,19 @@ class MainActivity : AppCompatActivity() {
             true
         }
 
-        // Pridanie karty do layout-u (pred posledný prvok - Add button)
+        // Adding a card to the layout (before the last element - Add button)
         val indexBeforeAddButton = maxOf(0, staticLayout.childCount - 1)
         staticLayout.addView(cardView, indexBeforeAddButton)
     }
 
-    // Nová funkcia na otvorenie game session
+    // New function to open a game session
     private fun openGameSession(gameName: String) {
-        val intent = Intent(this, SecondActivity::class.java)
+        val intent = Intent(this, SessionActivity::class.java)
         intent.putExtra("GAME_NAME", gameName)
         startActivity(intent)
     }
 
-    // Nová funkcia na otvorenie histórie
+    // New function to open history
     private fun openHistoryActivity() {
         try {
             val intent = Intent(this, HistoryActivity::class.java)

@@ -6,9 +6,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        tools:context=".SecondActivity">
+        tools:context=".SessionActivity">
 
-    <!-- Header s názvom hry -->
+    <!-- Header with the game name -->
     <TextView
             android:id="@+id/gameTitle"
             android:layout_width="0dp"
@@ -22,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- ScrollView pre celý obsah -->
+    <!-- ScrollView for the whole content -->
     <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-            <!-- Sekcia dátumu a času -->
+            <!-- Date and time section -->
             <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="12dp"/>
 
-                    <!-- Výber dátumu -->
+                    <!-- Choose a date -->
                     <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -139,7 +139,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Sekcia hráčov -->
+            <!-- Player section -->
             <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -196,7 +196,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Sekcia poznámok -->
+            <!-- Note section -->
             <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -232,7 +232,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Tlačidlá na spodku -->
+    <!-- Bottom Buttons -->
     <LinearLayout
             android:id="@+id/buttonContainer"
             android:layout_width="0dp"
