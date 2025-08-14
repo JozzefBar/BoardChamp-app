@@ -7,8 +7,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         app:cardElevation="4dp"
-        app:cardCornerRadius="8dp"
-        >
+        app:cardCornerRadius="8dp">
 
     <LinearLayout
             android:orientation="vertical"
@@ -24,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="?attr/colorOnSurface"
                 android:layout_marginBottom="8dp"/>
 
         <ImageButton
@@ -31,10 +31,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@android:drawable/ic_media_play"
-                android:background="@color/button"
-                android:tint="@color/white"
                 android:contentDescription="Play button"
                 android:scaleType="centerInside"
-                android:padding="8dp"/>
+                android:padding="8dp"
+                android:background="@color/primary_color"
+                android:tint="#FFFFFF"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

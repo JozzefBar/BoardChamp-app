@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="button">#673AB7</color>
-    <color name="cancel">#E0E40E0E</color>
+    <color name="status_bar_color">#673AB7</color>
+
+    <!-- Main colors -->
+    <color name="primary_color">#673AB7</color>
+    <color name="secondary_color">#2E7D32</color>
+    <color name="on_primary_color">#FFFFFF</color>
+    <color name="primary_container">#BB86FC</color>
+
+    <!-- Background -->
+    <color name="background_color">#FFFFFF</color>
+    <color name="on_background_color">#000000</color>
+
+    <!-- Surface elements (CardView, Surface) -->
+    <color name="surface_color">#F5F5F5</color>
+    <color name="on_surface_color">#000000</color>
+
+    <!-- Fields to fill in (EditText, TextInputLayout) -->
+    <color name="field_background">#FFFFFF</color>
+    <color name="field_text_color">#000000</color>
+    <color name="field_hint_color">#666666</color>
 </resources>

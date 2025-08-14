@@ -64,9 +64,9 @@
                             android:text="dd.MM.yyyy"
                             android:textAlignment="center"
                             android:textStyle="italic"
-                            android:textColor="#555555"
-                            android:padding="8dp"
-                            android:background="#F0F0F0" />
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:background="?attr/colorSurfaceVariant"
+                            android:padding="8dp"/>
 
                     <LinearLayout
                             android:layout_width="match_parent"
@@ -118,7 +118,8 @@
                             android:textAlignment="center"
                             android:textStyle="italic"
                             android:layout_marginTop="12dp"
-                            android:background="#EEEEEE"
+                            android:background="?attr/colorSurfaceVariant"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:padding="8dp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -182,7 +183,9 @@
                             android:hint="Enter session notes"
                             android:gravity="top|start"
                             android:inputType="textMultiLine"
-                            android:background="@android:drawable/edit_text"/>
+                            android:background="?attr/colorSurfaceVariant"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textColorHint="?attr/colorOnSurfaceVariant"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

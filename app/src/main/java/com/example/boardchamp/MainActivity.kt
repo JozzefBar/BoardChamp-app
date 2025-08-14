@@ -2,6 +2,7 @@ package com.example.boardchamp
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.Button
@@ -10,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.json.JSONArray
 
@@ -17,6 +19,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var addButton: Button
     private lateinit var historyButton: FloatingActionButton
+    private lateinit var themeSwitcherButton: FloatingActionButton
     private lateinit var staticLayout: LinearLayout
     private val gameList = mutableListOf<String>() // uchovávaný zoznam hier
 
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         // Setting the buttons
         addButton = findViewById(R.id.button)
         historyButton = findViewById(R.id.btnHistory)
+        themeSwitcherButton = findViewById(R.id.btnThemeSwitch)
 
         // Loading saved games and creating cards
         gameList.addAll(loadGameList())
@@ -43,6 +47,17 @@ class MainActivity : AppCompatActivity() {
 
         historyButton.setOnClickListener {
             openHistoryActivity()
+        }
+
+        themeSwitcherButton.setOnClickListener {
+            val currentMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+
+            if(currentMode == Configuration.UI_MODE_NIGHT_YES) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+            else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }
         }
     }
 

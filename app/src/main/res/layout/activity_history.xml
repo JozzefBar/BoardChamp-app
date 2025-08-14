@@ -20,7 +20,8 @@
             android:layout_marginBottom="24dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="?attr/colorOnSurfaceVariant"/>
 
     <!-- ScrollView for History -->
     <ScrollView

@@ -133,8 +133,8 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                             android:textStyle="italic"
-                            android:textAlignment="center"
-                            android:background="#F0F0F0"
+                            android:background="?attr/colorSurfaceVariant"
+                            android:textColor="?attr/colorOnSurfaceVariant"
                             android:padding="8dp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -175,14 +175,14 @@
                                 style="?android:attr/buttonStyleSmall"/>
                     </LinearLayout>
 
-                    <!-- Container pre zoznam hráčov -->
+                    <!-- Container for the list of players -->
                     <LinearLayout
                             android:id="@+id/playersContainer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
-                        <!-- Placeholder pre prázdny zoznam -->
+                        <!-- Placeholder for empty list -->
                         <TextView
                                 android:id="@+id/tvNoPlayers"
                                 android:text="No players added yet. Click 'Add Player' to start."
@@ -190,7 +190,6 @@
                                 android:layout_height="wrap_content"
                                 android:textAlignment="center"
                                 android:textStyle="italic"
-                                android:textColor="#888888"
                                 android:padding="16dp"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -225,7 +224,9 @@
                             android:hint="Add any notes about this game session..."
                             android:gravity="top|start"
                             android:inputType="textMultiLine"
-                            android:background="@android:drawable/edit_text"/>
+                            android:background="?attr/colorSurfaceVariant"
+                            android:textColor="?attr/colorOnSurface"
+                            android:textColorHint="?attr/colorOnSurfaceVariant"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
