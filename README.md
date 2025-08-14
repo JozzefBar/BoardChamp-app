@@ -93,4 +93,4 @@ The app contains four main screens (Activities):
 - [ ] In some specific parts there is duplicity in code - *not that important*
 - [ ] Possibility do download on android easily
 - [ ] Confirmation of actions, such as deleting a session, etc. - to save if someone missclicks
-- [ ] Change colors for data entry in create/edit session - if the user has dark mode it is not clearly visible
+- [x] Change colors for data entry in create/edit session - if the user has dark mode it is not clearly visible - *(dark theme and light theme added)*
