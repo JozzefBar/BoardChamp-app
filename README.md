@@ -91,7 +91,7 @@ The app contains four main screens (Activities):
 - [ ] Performance is not tested with a large number of game cards/sessions in history etc.
 - [ ] Improve visuals - *not that important*
 - [ ] In some specific parts there is duplicity in code - *not that important*
-- [ ] Possibility do download on android easily
-- [ ] Confirmation of actions, such as deleting a session, etc. - to save if someone missclicks
+- [ ] Possibility to download on android easily
+- [x] Confirmation of actions, such as deleting a session, etc. - to save if someone missclicks
 - [x] Change colors for data entry in create/edit session - if the user has dark mode it is not clearly visible - *(dark theme and light theme added)*
-- [ ] In session editing there is no validation for player's position.
+- [x] In session editing there is no validation for player's position.
