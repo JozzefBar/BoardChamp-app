@@ -85,8 +85,8 @@ The app contains four main screens (Activities):
 
 ## 🐞 To-Do / Known Issues
 
-- [ ] Fix the bug during the editing time on session - duration past midnight is calculated wrong
-- [ ] Possibility to edit player's name, score and position
+- [x] Fix the bug during the editing time on session - duration past midnight is calculated wrong
+- [x] Possibility to edit player's name, score and position - *(name cannot be changed)*
 - [ ] Better banner and visuals - *not that important*
 - [ ] Performance is not tested with a large number of game cards/sessions in history etc.
 - [ ] Improve visuals - *not that important*
@@ -94,3 +94,4 @@ The app contains four main screens (Activities):
 - [ ] Possibility do download on android easily
 - [ ] Confirmation of actions, such as deleting a session, etc. - to save if someone missclicks
 - [x] Change colors for data entry in create/edit session - if the user has dark mode it is not clearly visible - *(dark theme and light theme added)*
+- [ ] In session editing there is no validation for player's position.
