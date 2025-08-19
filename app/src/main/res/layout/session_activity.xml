@@ -135,7 +135,8 @@
                             android:textStyle="italic"
                             android:background="?attr/colorSurfaceVariant"
                             android:textColor="?attr/colorOnSurfaceVariant"
-                            android:padding="8dp"/>
+                            android:padding="8dp"
+                            android:textAlignment="center"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -223,6 +224,7 @@
                             android:layout_height="100dp"
                             android:hint="Add any notes about this game session..."
                             android:gravity="top|start"
+                            android:padding="4dp"
                             android:inputType="textMultiLine"
                             android:background="?attr/colorSurfaceVariant"
                             android:textColor="?attr/colorOnSurface"

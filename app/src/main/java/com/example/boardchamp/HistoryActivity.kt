@@ -1,6 +1,5 @@
 package com.example.boardchamp
 
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -8,6 +7,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import org.json.JSONArray
@@ -131,7 +131,7 @@ class HistoryActivity : AppCompatActivity() {
             }
 
             btnDelete.setOnClickListener {
-                deleteSession(session.id)
+                confirmDelete(session.id)
             }
 
             btnEdit.setOnClickListener {
@@ -272,6 +272,17 @@ class HistoryActivity : AppCompatActivity() {
 
     private fun dpToPx(dp: Int): Int {
         return (dp * resources.displayMetrics.density).toInt()
+    }
+
+    private fun confirmDelete(sessionId: Long) {
+        AlertDialog.Builder(this)
+            .setTitle("Delete Confirmation")
+            .setMessage("Do you really want to remove this session?\nOnce removed, it will be lost permanently.")
+            .setPositiveButton("Yes") { _, _ ->
+                deleteSession(sessionId)
+            }
+            .setNegativeButton("No", null)
+            .show()
     }
 
     private fun deleteSession(sessionId: Long) {

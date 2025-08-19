@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -90,6 +91,22 @@ class MainActivity : AppCompatActivity() {
         builder.show()
     }
 
+    private fun confirmDelete(cardView: View, gameName: String, index: Int) {
+        AlertDialog.Builder(this)
+            .setTitle("Delete Confirmation")
+            .setMessage("Do you really want to remove \"$gameName\"?\nOnce removed, it will be lost permanently.")
+            .setPositiveButton("Yes") { _, _ ->
+                // card deletion
+                staticLayout.removeView(cardView)
+                gameList.removeAt(index)
+                saveGameList(gameList)
+                Toast.makeText(this, "Game \"$gameName\" removed", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("No", null)
+            .show()
+    }
+
+
     private fun addNewGameCard(gameName: String) {
         //Creating a new CardView from a layout
         val inflater = LayoutInflater.from(this)
@@ -134,10 +151,7 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                         2 -> { // Remove
-                            staticLayout.removeView(cardView)
-                            gameList.removeAt(index)
-                            saveGameList(gameList)
-                            Toast.makeText(this, "Game \"$gameName\" removed", Toast.LENGTH_SHORT).show()
+                            confirmDelete(cardView, gameName, index)
                         }
                     }
                 }

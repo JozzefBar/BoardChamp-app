@@ -1,6 +1,5 @@
 package com.example.boardchamp
 
-import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
@@ -46,7 +45,8 @@ class EditSessionActivity : AppCompatActivity() {
         loadSessionData()
 
         tvGameDate.setOnClickListener {
-            showDatePicker()
+            // Date editing is completely disabled
+            Toast.makeText(this, "Date cannot be changed", Toast.LENGTH_SHORT).show()
         }
 
         btnStartTime.setOnClickListener {
@@ -68,76 +68,27 @@ class EditSessionActivity : AppCompatActivity() {
 
     private fun loadSessionData() {
         val intent = intent
-        if (intent != null && intent.hasExtra("session_id")) {
-            val gameDateMillis = intent.getLongExtra("game_date", System.currentTimeMillis())
-            val startTimeMillis = intent.getLongExtra("start_time", System.currentTimeMillis())
-            val endTimeMillis = intent.getLongExtra("end_time", System.currentTimeMillis())
-            val notes = intent.getStringExtra("notes") ?: ""
-            val playersJson = intent.getStringExtra("players") ?: ""
+        val gameDateMillis = intent.getLongExtra("game_date", System.currentTimeMillis())
+        val startTimeMillis = intent.getLongExtra("start_time", System.currentTimeMillis())
+        val endTimeMillis = intent.getLongExtra("end_time", System.currentTimeMillis())
+        val notes = intent.getStringExtra("notes") ?: ""
+        val playersJson = intent.getStringExtra("players") ?: ""
 
-            gameDate = Calendar.getInstance().apply { timeInMillis = gameDateMillis }
-            tvGameDate.text = dateFormat.format(gameDate.time)
+        gameDate = Calendar.getInstance().apply { timeInMillis = gameDateMillis }
+        tvGameDate.text = dateFormat.format(gameDate.time)
 
-            startTime = Calendar.getInstance().apply { timeInMillis = startTimeMillis }
-            endTime = Calendar.getInstance().apply { timeInMillis = endTimeMillis }
+        startTime = Calendar.getInstance().apply { timeInMillis = startTimeMillis }
+        endTime = Calendar.getInstance().apply { timeInMillis = endTimeMillis }
 
-            btnStartTime.text = formatTime(startTime!!)
-            updateEndTimeDisplay()
+        btnStartTime.text = formatTime(startTime!!)
+        updateEndTimeDisplay()
 
-            etNotes.setText(notes)
+        etNotes.setText(notes)
 
-            // Load and display players
-            loadPlayers(playersJson)
+        // Load and display players
+        loadPlayers(playersJson)
 
-            calculateDuration()
-        } else {
-            gameDate = Calendar.getInstance()
-            tvGameDate.text = dateFormat.format(gameDate.time)
-
-            // Default times
-            startTime = Calendar.getInstance().apply {
-                set(Calendar.YEAR, gameDate.get(Calendar.YEAR))
-                set(Calendar.MONTH, gameDate.get(Calendar.MONTH))
-                set(Calendar.DAY_OF_MONTH, gameDate.get(Calendar.DAY_OF_MONTH))
-                set(Calendar.HOUR_OF_DAY, 14)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
-
-            endTime = Calendar.getInstance().apply {
-                set(Calendar.YEAR, gameDate.get(Calendar.YEAR))
-                set(Calendar.MONTH, gameDate.get(Calendar.MONTH))
-                set(Calendar.DAY_OF_MONTH, gameDate.get(Calendar.DAY_OF_MONTH))
-                set(Calendar.HOUR_OF_DAY, 15)
-                set(Calendar.MINUTE, 30)
-                set(Calendar.SECOND, 0)
-                set(Calendar.MILLISECOND, 0)
-            }
-
-            btnStartTime.text = formatTime(startTime!!)
-            updateEndTimeDisplay()
-
-            etNotes.setText("")
-
-            calculateDuration()
-        }
-    }
-
-    private fun showDatePicker() {
-        val year = gameDate.get(Calendar.YEAR)
-        val month = gameDate.get(Calendar.MONTH)
-        val day = gameDate.get(Calendar.DAY_OF_MONTH)
-
-        DatePickerDialog(this, { _, y, m, d ->
-            gameDate.set(Calendar.YEAR, y)
-            gameDate.set(Calendar.MONTH, m)
-            gameDate.set(Calendar.DAY_OF_MONTH, d)
-            tvGameDate.text = dateFormat.format(gameDate.time)
-
-            // Update times with new date
-            updateTimesWithDate()
-        }, year, month, day).show()
+        calculateDuration()
     }
 
     private fun showTimePicker(isStartTime: Boolean) {
@@ -199,28 +150,6 @@ class EditSessionActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateTimesWithDate() {
-        // If we already have times set, let's update them with the new date
-        startTime?.let { time ->
-            val originalHour = time.get(Calendar.HOUR_OF_DAY)
-            val originalMinute = time.get(Calendar.MINUTE)
-
-            time.set(Calendar.YEAR, gameDate.get(Calendar.YEAR))
-            time.set(Calendar.MONTH, gameDate.get(Calendar.MONTH))
-            time.set(Calendar.DAY_OF_MONTH, gameDate.get(Calendar.DAY_OF_MONTH))
-            time.set(Calendar.HOUR_OF_DAY, originalHour)
-            time.set(Calendar.MINUTE, originalMinute)
-
-            btnStartTime.text = formatTime(time)
-        }
-
-        endTime?.let {
-            updateEndTimeDisplay()
-        }
-
-        calculateDuration()
-    }
-
     private fun formatTime(calendar: Calendar): String {
         val format = SimpleDateFormat("HH:mm", Locale.getDefault())
         return format.format(calendar.time)
@@ -260,7 +189,7 @@ class EditSessionActivity : AppCompatActivity() {
         resultIntent.putExtra("notes", notes)
 
         // Collect updated players data
-        val playersJson = collectPlayersData()
+        val playersJson = collectPlayersData()?: return // Validation failed, stay in edit mode
         resultIntent.putExtra("players", playersJson)
 
         setResult(RESULT_OK, resultIntent)
@@ -309,7 +238,7 @@ class EditSessionActivity : AppCompatActivity() {
         playersContainer.addView(playerView)
     }
 
-    private fun collectPlayersData(): String {
+    private fun collectPlayersData(): String? {
         val jsonArray = JSONArray()
 
         for (i in 0 until playersContainer.childCount) {
@@ -322,6 +251,16 @@ class EditSessionActivity : AppCompatActivity() {
             val name = etPlayerName.text.toString().trim()
             val score = etPlayerScore.text.toString().toIntOrNull() ?: 0
             val position = etPlayerPosition.text.toString().toIntOrNull() ?: 1
+
+            if (position > playersContainer.childCount) {
+                Toast.makeText(this, "The $name's position is greater than the total number of players.", Toast.LENGTH_LONG).show()
+                return null
+            }
+
+            if(position == 0){
+                Toast.makeText(this, "The $name's position is zero.", Toast.LENGTH_SHORT).show()
+                return null
+            }
 
             if (name.isNotEmpty()) {
                 val playerJson = JSONObject().apply {

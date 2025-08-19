@@ -1,5 +1,6 @@
 package com.example.boardchamp
 
+import androidx.appcompat.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
@@ -61,7 +62,7 @@ class SessionActivity : AppCompatActivity() {
         btnStartTime.setOnClickListener { showTimePickerDialog(true) }
         btnEndTime.setOnClickListener { showTimePickerDialog(false) }
         btnAddPlayer.setOnClickListener { addNewPlayer() }
-        btnSave.setOnClickListener { saveGameSession() }
+        btnSave.setOnClickListener { confirmSave() }
         btnCancel.setOnClickListener { finish() }
     }
 
@@ -283,6 +284,17 @@ class SessionActivity : AppCompatActivity() {
         }
     }
 
+    private fun confirmSave() {
+        AlertDialog.Builder(this)
+            .setTitle("Save Confirmation")
+            .setMessage("Do you really want to save with the current data? \nSome data such as number of players or date cannot be changed in the future")
+            .setPositiveButton("Yes") { _, _ ->
+                saveGameSession()
+            }
+            .setNegativeButton("No", null)
+            .show()
+    }
+
     private fun saveGameSession() {
         // Data validation
         if (gameDate == null) {
@@ -314,6 +326,11 @@ class SessionActivity : AppCompatActivity() {
 
             if (name.isEmpty()) {
                 Toast.makeText(this, "Please enter name for all players", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            if (name.count() > 20) {
+                Toast.makeText(this, "The name for the ${i}. player is too long.", Toast.LENGTH_SHORT).show()
                 return
             }
 
@@ -461,7 +478,11 @@ class SessionActivity : AppCompatActivity() {
     }
 
     // Data classes for data storage
-    data class PlayerData(val name: String, val score: Int, val position: Int)
+    data class PlayerData(
+        val name: String,
+        val score: Int,
+        val position: Int
+    )
 
     data class GameSession(
         val id: Long,
