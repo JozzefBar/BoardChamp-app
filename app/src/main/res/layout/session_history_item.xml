@@ -110,7 +110,7 @@
                 android:layout_marginTop="4dp"
                 android:background="?attr/colorSurfaceVariant"
                 android:padding="8dp"
-                android:visibility="gone"/>
+                />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

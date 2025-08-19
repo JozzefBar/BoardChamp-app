@@ -58,12 +58,14 @@ class HistoryActivity : AppCompatActivity() {
                 historyContainer.visibility = LinearLayout.VISIBLE
 
                 historyContainer.removeAllViews()
-                val sortedSessions = sessions.sortedByDescending { it.gameDate.timeInMillis }
-                val groupedSessions = sortedSessions.groupBy { formatDate(it.gameDate) }
+                val sortedSessions = sessions.sortedByDescending { it.startTime.timeInMillis }
+                val groupedSessions = sortedSessions.groupBy { formatDate(it.startTime) }
 
                 groupedSessions.forEach { (date, sessionsForDate) ->
                     addDateHeader(date)
-                    sessionsForDate.forEach { session ->
+                    val dailySorted = sessionsForDate.sortedByDescending{ it.startTime.timeInMillis }
+
+                    dailySorted.forEach { session ->
                         addSessionCard(session)
                     }
                 }
@@ -229,7 +231,7 @@ class HistoryActivity : AppCompatActivity() {
         val nameView = TextView(this).apply {
             text = player.name
             textSize = 14f
-            setTextColor(ContextCompat.getColor(this@HistoryActivity, android.R.color.black))
+            setTextColor(ContextCompat.getColor(this@HistoryActivity, R.color.on_surface_color))
             layoutParams = LinearLayout.LayoutParams(
                 0,
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -403,6 +405,26 @@ class HistoryActivity : AppCompatActivity() {
             if (updatedSessionId != -1L) {
                 val sessions = loadSessionsFromHistory().toMutableList()
                 val sessionIndex = sessions.indexOfFirst { it.id == updatedSessionId }
+
+                //load players from intent
+                val updatedPlayersJson = data.getStringExtra("players") ?: "[]"
+                val updatedPlayers = mutableListOf<PlayerData>()
+                try {
+                    val jsonArray = JSONArray(updatedPlayersJson)
+                    for (i in 0 until jsonArray.length()) {
+                        val playerJson = jsonArray.getJSONObject(i)
+                        updatedPlayers.add(
+                            PlayerData(
+                                name = playerJson.optString("name", "Unknown"),
+                                score = playerJson.optInt("score", 0),
+                                position = playerJson.optInt("position", 0)
+                            )
+                        )
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
                 if (sessionIndex != -1) {
                     val updatedGameDate = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("game_date", sessions[sessionIndex].gameDate.timeInMillis) }
                     val updatedStartTime = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("start_time", sessions[sessionIndex].startTime.timeInMillis) }
@@ -413,24 +435,14 @@ class HistoryActivity : AppCompatActivity() {
                         gameDate = updatedGameDate,
                         startTime = updatedStartTime,
                         endTime = updatedEndTime,
-                        notes = updatedNotes
+                        notes = updatedNotes,
+                        players = updatedPlayers
                     )
                     saveSessionsToHistory(sessions)
                     loadAndDisplayHistory() // UI update
-                } else {
-                    // Adding a new session if it doesn't exist (unlikely)
-                    val newSession = GameSession(
-                        id = updatedSessionId,
-                        gameName = data.getStringExtra("game_name") ?: "Unknown Game",
-                        gameDate = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("game_date", System.currentTimeMillis()) },
-                        startTime = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("start_time", System.currentTimeMillis()) },
-                        endTime = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("end_time", System.currentTimeMillis()) },
-                        players = emptyList(),
-                        notes = data.getStringExtra("notes") ?: ""
-                    )
-                    sessions.add(newSession)
-                    saveSessionsToHistory(sessions)
-                    loadAndDisplayHistory()
+                }
+                else {
+                    Toast.makeText(this, "Edited session not found in history", Toast.LENGTH_SHORT).show()
                 }
             }
         }

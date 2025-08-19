@@ -319,6 +319,14 @@ class SessionActivity : AppCompatActivity() {
 
             val score = scoreText.toIntOrNull() ?: 0
             val position = positionText.toIntOrNull() ?: (players.size + 1)
+            if(position > players.size + 1){
+                Toast.makeText(this, "The $name's position is greater than the total number of players.", Toast.LENGTH_SHORT).show()
+                return
+            }
+            if(position == 0){
+                Toast.makeText(this, "The $name's position is zero.", Toast.LENGTH_SHORT).show()
+                return
+            }
 
             players.add(PlayerData(name, score, position))
         }

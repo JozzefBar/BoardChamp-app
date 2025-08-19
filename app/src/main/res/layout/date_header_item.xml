@@ -22,11 +22,9 @@
             android:text="01.01.2025"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold"
-            android:textColor="#808080"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:background="?attr/colorSurfaceVariant"/>
-
 </LinearLayout>
