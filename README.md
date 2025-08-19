@@ -62,7 +62,7 @@ The app contains four main screens (Activities):
 - Save results and notes in JSON format.
 
 ### Edit Activity
-- Edit existing records - time, note and *players name and score will be added later*.
+- Edit existing records - time, note and player's score and position.
 
 ---
 
