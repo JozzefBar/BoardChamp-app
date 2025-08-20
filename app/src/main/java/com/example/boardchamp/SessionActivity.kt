@@ -220,11 +220,22 @@ class SessionActivity : AppCompatActivity() {
         }
     }
 
+    private fun getOrdinalSuffix(number: Int): String {
+        if (number in 11..15) return "th"
+        return when (number % 10) {
+            1 -> "st"
+            2 -> "nd"
+            3 -> "rd"
+            else -> "th"
+        }
+    }
+
     private fun addNewPlayer() {
         val inflater = LayoutInflater.from(this)
         val playerView = inflater.inflate(R.layout.player_item, playersContainer, false)
 
         val etPlayerName = playerView.findViewById<EditText>(R.id.etPlayerName)
+        val etPlayerPosition = playerView.findViewById<EditText>(R.id.etPlayerPosition)
         val btnRemovePlayer = playerView.findViewById<ImageButton>(R.id.btnRemovePlayer)
 
         // First, we hide the placeholder if it is visible.
@@ -234,7 +245,8 @@ class SessionActivity : AppCompatActivity() {
 
         //Now count only real players (without placeholder TextView)
         val actualPlayerCount = getActualPlayerCount()
-        etPlayerName.hint = "Player ${actualPlayerCount + 1}"
+        etPlayerName.hint = "Player $actualPlayerCount"
+        etPlayerPosition.hint = "$actualPlayerCount${getOrdinalSuffix(actualPlayerCount)}"
 
         //Player removal settings
         btnRemovePlayer.setOnClickListener {
@@ -255,17 +267,22 @@ class SessionActivity : AppCompatActivity() {
             if (child == tvNoPlayers) continue
 
             val etPlayerName = child.findViewById<EditText>(R.id.etPlayerName)
-            // If EditText is empty, update hint
+            val etPlayerPosition = child.findViewById<EditText>(R.id.etPlayerPosition)
+
             if (etPlayerName.text.toString().trim().isEmpty()) {
                 etPlayerName.hint = "Player $playerNumber"
             }
+            if (etPlayerPosition.text.toString().trim().isEmpty()) {
+                etPlayerPosition.hint = "${playerNumber}${getOrdinalSuffix(playerNumber)}"
+            }
+
             playerNumber++
         }
     }
 
     private fun getActualPlayerCount(): Int {
         //Only count Views that are not tvNoPlayers TextView
-        var count = 0
+        var count = 1
         for (i in 0 until playersContainer.childCount) {
             val child = playersContainer.getChildAt(i)
             if (child != tvNoPlayers) {
@@ -335,8 +352,8 @@ class SessionActivity : AppCompatActivity() {
             }
 
             val score = scoreText.toIntOrNull() ?: 0
-            val position = positionText.toIntOrNull() ?: (players.size + 1)
-            if(position > players.size + 1){
+            val position  = positionText.toIntOrNull() ?: (i)
+            if(position >= playersContainer.childCount){
                 Toast.makeText(this, "The $name's position is greater than the total number of players.", Toast.LENGTH_SHORT).show()
                 return
             }

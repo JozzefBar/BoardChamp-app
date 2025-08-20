@@ -232,10 +232,22 @@ class EditSessionActivity : AppCompatActivity() {
         etPlayerScore.setText(score.toString())
         etPlayerPosition.setText(position.toString())
 
+        etPlayerPosition.hint = "$position${getOrdinalSuffix(position)}"
+
         // Hide remove button since we're editing existing session
         btnRemovePlayer.visibility = android.view.View.GONE
 
         playersContainer.addView(playerView)
+    }
+
+    private fun getOrdinalSuffix(number: Int): String {
+        if (number in 11..15) return "th"
+        return when (number % 10) {
+            1 -> "st"
+            2 -> "nd"
+            3 -> "rd"
+            else -> "th"
+        }
     }
 
     private fun collectPlayersData(): String? {
@@ -250,7 +262,7 @@ class EditSessionActivity : AppCompatActivity() {
 
             val name = etPlayerName.text.toString().trim()
             val score = etPlayerScore.text.toString().toIntOrNull() ?: 0
-            val position = etPlayerPosition.text.toString().toIntOrNull() ?: 1
+            val position = etPlayerPosition.text.toString().toIntOrNull() ?: (i + 1)
 
             if (position > playersContainer.childCount) {
                 Toast.makeText(this, "The $name's position is greater than the total number of players.", Toast.LENGTH_LONG).show()
