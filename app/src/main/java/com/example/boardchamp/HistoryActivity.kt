@@ -10,6 +10,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.activity.result.contract.ActivityResultContracts
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -20,6 +21,14 @@ class HistoryActivity : AppCompatActivity() {
     private lateinit var historyContainer: LinearLayout
     private lateinit var tvNoHistory: TextView
     private lateinit var btnBack: Button
+
+    private val editSessionLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK && result.data != null) {
+            handleEditSessionResult(result.data!!)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -153,7 +162,7 @@ class HistoryActivity : AppCompatActivity() {
                     }
                     putExtra("players", playersJson.toString())
                 }
-                startActivityForResult(intent, 1)
+                editSessionLauncher.launch(intent)
             }
 
             historyContainer.addView(sessionView)
@@ -409,52 +418,49 @@ class HistoryActivity : AppCompatActivity() {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            val updatedSessionId = data.getLongExtra("session_id", -1L)
-            if (updatedSessionId != -1L) {
-                val sessions = loadSessionsFromHistory().toMutableList()
-                val sessionIndex = sessions.indexOfFirst { it.id == updatedSessionId }
+    private fun handleEditSessionResult(data: Intent) {
+        val updatedSessionId = data.getLongExtra("session_id", -1L)
+        if (updatedSessionId != -1L) {
+            val sessions = loadSessionsFromHistory().toMutableList()
+            val sessionIndex = sessions.indexOfFirst { it.id == updatedSessionId }
 
-                //load players from intent
-                val updatedPlayersJson = data.getStringExtra("players") ?: "[]"
-                val updatedPlayers = mutableListOf<PlayerData>()
-                try {
-                    val jsonArray = JSONArray(updatedPlayersJson)
-                    for (i in 0 until jsonArray.length()) {
-                        val playerJson = jsonArray.getJSONObject(i)
-                        updatedPlayers.add(
-                            PlayerData(
-                                name = playerJson.optString("name", "Unknown"),
-                                score = playerJson.optInt("score", 0),
-                                position = playerJson.optInt("position", 0)
-                            )
+            //load players from intent
+            val updatedPlayersJson = data.getStringExtra("players") ?: "[]"
+            val updatedPlayers = mutableListOf<PlayerData>()
+            try {
+                val jsonArray = JSONArray(updatedPlayersJson)
+                for (i in 0 until jsonArray.length()) {
+                    val playerJson = jsonArray.getJSONObject(i)
+                    updatedPlayers.add(
+                        PlayerData(
+                            name = playerJson.optString("name", "Unknown"),
+                            score = playerJson.optInt("score", 0),
+                            position = playerJson.optInt("position", 0)
                         )
-                    }
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-
-                if (sessionIndex != -1) {
-                    val updatedGameDate = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("game_date", sessions[sessionIndex].gameDate.timeInMillis) }
-                    val updatedStartTime = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("start_time", sessions[sessionIndex].startTime.timeInMillis) }
-                    val updatedEndTime = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("end_time", sessions[sessionIndex].endTime.timeInMillis) }
-                    val updatedNotes = data.getStringExtra("notes") ?: sessions[sessionIndex].notes
-
-                    sessions[sessionIndex] = sessions[sessionIndex].copy(
-                        gameDate = updatedGameDate,
-                        startTime = updatedStartTime,
-                        endTime = updatedEndTime,
-                        notes = updatedNotes,
-                        players = updatedPlayers
                     )
-                    saveSessionsToHistory(sessions)
-                    loadAndDisplayHistory() // UI update
                 }
-                else {
-                    Toast.makeText(this, "Edited session not found in history", Toast.LENGTH_SHORT).show()
-                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            if (sessionIndex != -1) {
+                val updatedGameDate = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("game_date", sessions[sessionIndex].gameDate.timeInMillis) }
+                val updatedStartTime = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("start_time", sessions[sessionIndex].startTime.timeInMillis) }
+                val updatedEndTime = Calendar.getInstance().apply { timeInMillis = data.getLongExtra("end_time", sessions[sessionIndex].endTime.timeInMillis) }
+                val updatedNotes = data.getStringExtra("notes") ?: sessions[sessionIndex].notes
+
+                sessions[sessionIndex] = sessions[sessionIndex].copy(
+                    gameDate = updatedGameDate,
+                    startTime = updatedStartTime,
+                    endTime = updatedEndTime,
+                    notes = updatedNotes,
+                    players = updatedPlayers
+                )
+                saveSessionsToHistory(sessions)
+                loadAndDisplayHistory() // UI update
+            }
+            else {
+                Toast.makeText(this, "Edited session not found in history", Toast.LENGTH_SHORT).show()
             }
         }
     }

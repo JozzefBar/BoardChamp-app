@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -201,7 +202,7 @@ class SessionActivity : AppCompatActivity() {
 
             if (durationMillis < 0) {
                 tvDuration.text = getString(R.string.calculation_error)
-                tvDuration.setTextColor(resources.getColor(android.R.color.holo_red_dark))
+                tvDuration.setTextColor(ContextCompat.getColor(this, android.R.color.holo_red_dark))
             } else {
                 val hours = durationMillis / (1000 * 60 * 60)
                 val minutes = (durationMillis % (1000 * 60 * 60)) / (1000 * 60)
@@ -215,7 +216,7 @@ class SessionActivity : AppCompatActivity() {
                 }
 
                 tvDuration.text = durationText
-                tvDuration.setTextColor(resources.getColor(android.R.color.holo_green_dark))
+                tvDuration.setTextColor(ContextCompat.getColor(this, android.R.color.holo_green_dark))
             }
         }
     }

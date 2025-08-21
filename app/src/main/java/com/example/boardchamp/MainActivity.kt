@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
@@ -70,17 +71,23 @@ class MainActivity : AppCompatActivity() {
         val input = EditText(this)
         input.hint = "Game name"
         input.isSingleLine = true
+        input.filters = arrayOf(InputFilter.LengthFilter(42))
         builder.setView(input)
 
         builder.setPositiveButton("Add") { _, _ ->
             val gameName = input.text.toString().trim()
-            if (gameName.isNotEmpty()) {
+            if(gameName.isEmpty()){
+                Toast.makeText(this, "Please enter game name", Toast.LENGTH_SHORT).show()
+            }
+            //If the game has same name but with different capitals, it will not add new game card
+            else if(gameList.any {it.equals(gameName, ignoreCase = true) }) {
+                Toast.makeText(this, "This game card already exists", Toast.LENGTH_SHORT).show()
+            }
+            else{
                 gameList.add(gameName)
                 saveGameList(gameList)
                 addNewGameCard(gameName)
                 Toast.makeText(this, "Game '$gameName' added", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Please enter game name", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -142,7 +149,7 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                         1 -> { // Move Down
-                            if (index < staticLayout.childCount - 1) {
+                            if (index < staticLayout.childCount - 2) {
                                 staticLayout.removeViewAt(index)
                                 staticLayout.addView(cardView, index + 1)
                                 val movedGame = gameList.removeAt(index)
