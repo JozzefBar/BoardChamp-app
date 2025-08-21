@@ -92,7 +92,7 @@ You can download the latest version of BoardChamp APK here:
 - [ ] Performance is not tested with a large number of game cards/sessions in history etc.
 - [ ] Improve visuals - *not that important*
 - [ ] In some specific parts there is duplicity in code - *not that important*
-- [ ] Possibility to download on android easily
+- [x] Possibility to download on android easily
 - [x] Confirmation of actions, such as deleting a session, etc. - to save if someone missclicks
 - [x] Change colors for data entry in create/edit session - if the user has dark mode it is not clearly visible - *(dark theme and light theme added)*
 - [x] In session editing there is no validation for player's position.
