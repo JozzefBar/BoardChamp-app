@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">BoardChamp</string>
+
+    <!-- Strings with arguments -->
+    <string name="duration_format">Duration: %1$dh %2$dm</string>
+    <string name="notes">Notes: %1$s</string>
+    <string name="points_format">%1$d pts</string>
+    <string name="end_time_plus_day">%1$s (+1 day)</string>
+    <string name="game_name">%1$s - New Session</string>
+
+    <!-- Strings without arguments -->
+    <string name="no_players">No players recorded</string>
+    <string name="calculation_error">Duration: Invalid (calculation error)</string>
 </resources>

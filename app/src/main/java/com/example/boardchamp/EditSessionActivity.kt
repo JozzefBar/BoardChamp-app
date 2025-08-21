@@ -140,7 +140,7 @@ class EditSessionActivity : AppCompatActivity() {
 
                 if (isNextDay) {
                     endT.add(Calendar.DAY_OF_MONTH, 1)
-                    btnEndTime.text = "${formatTime(endT)} (+1 day)"
+                    btnEndTime.text = getString(R.string.end_time_plus_day, formatTime(endT))
                 } else {
                     btnEndTime.text = formatTime(endT)
                 }
@@ -160,7 +160,7 @@ class EditSessionActivity : AppCompatActivity() {
             val durationMillis = endTime!!.timeInMillis - startTime!!.timeInMillis
 
             if (durationMillis < 0) {
-                tvDuration.text = "Duration: Invalid (calculation error)"
+                tvDuration.text = getString(R.string.calculation_error)
             } else {
                 val hours = durationMillis / (1000 * 60 * 60)
                 val minutes = (durationMillis % (1000 * 60 * 60)) / (1000 * 60)

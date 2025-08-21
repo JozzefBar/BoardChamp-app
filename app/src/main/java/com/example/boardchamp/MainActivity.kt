@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var historyButton: FloatingActionButton
     private lateinit var themeSwitcherButton: FloatingActionButton
     private lateinit var staticLayout: LinearLayout
-    private val gameList = mutableListOf<String>() // uchovávaný zoznam hier
+    private val gameList = mutableListOf<String>() // list of games
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -118,13 +118,13 @@ class HistoryActivity : AppCompatActivity() {
             val durationMillis = session.endTime.timeInMillis - session.startTime.timeInMillis
             val hours = durationMillis / (1000 * 60 * 60)
             val minutes = (durationMillis % (1000 * 60 * 60)) / (1000 * 60)
-            tvDuration.text = "Duration: ${hours}h ${minutes}m"
+            tvDuration.text = getString(R.string.duration_format, hours, minutes)
 
             // We will fill the player list with a new layout
             populatePlayersInCard(playersListContainer, session.players)
 
             if (session.notes.isNotEmpty()) {
-                tvNotes.text = "Notes: ${session.notes}"
+                tvNotes.text = getString(R.string.notes, session.notes)
                 tvNotes.visibility = View.VISIBLE
             } else {
                 tvNotes.visibility = View.GONE
@@ -167,7 +167,7 @@ class HistoryActivity : AppCompatActivity() {
 
         if (players.isEmpty()) {
             val noPlayersView = TextView(this).apply {
-                text = "No players recorded"
+                text = getString(R.string.no_players)
                 textSize = 14f
                 setTextColor(ContextCompat.getColor(this@HistoryActivity, android.R.color.darker_gray))
                 gravity = Gravity.CENTER
@@ -241,7 +241,7 @@ class HistoryActivity : AppCompatActivity() {
 
         // Player score
         val scoreView = TextView(this).apply {
-            text = "${player.score} pts"
+            text = getString(R.string.points_format, player.score)
             textSize = 14f
             setTextColor(ContextCompat.getColor(this@HistoryActivity, android.R.color.holo_green_dark))
             setTypeface(null, android.graphics.Typeface.BOLD)
@@ -310,7 +310,7 @@ class HistoryActivity : AppCompatActivity() {
             val sharedPref = getSharedPreferences("game_data", MODE_PRIVATE)
             val json = sharedPref.getString("game_sessions", null)
 
-            if (json != null && json.isNotEmpty()) {
+            if (!json.isNullOrEmpty()) {
                 val jsonArray = JSONArray(json)
                 for (i in 0 until jsonArray.length()) {
                     try {

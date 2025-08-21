@@ -67,7 +67,7 @@ class SessionActivity : AppCompatActivity() {
     }
 
     private fun updateGameTitle() {
-        gameTitle.text = "$gameName - New Session"
+        gameTitle.text = getString(R.string.game_name, gameName)
     }
 
     private fun showDatePickerDialog() {
@@ -153,7 +153,7 @@ class SessionActivity : AppCompatActivity() {
 
                 if (isNextDay) {
                     endT.add(Calendar.DAY_OF_MONTH, 1)
-                    btnEndTime.text = "${formatTime(endT)} (+1 day)"
+                    btnEndTime.text = getString(R.string.end_time_plus_day, formatTime(endT))
                 } else {
                     btnEndTime.text = formatTime(endT)
                 }
@@ -200,7 +200,7 @@ class SessionActivity : AppCompatActivity() {
             val durationMillis = endTime!!.timeInMillis - startTime!!.timeInMillis
 
             if (durationMillis < 0) {
-                tvDuration.text = "Duration: Invalid (calculation error)"
+                tvDuration.text = getString(R.string.calculation_error)
                 tvDuration.setTextColor(resources.getColor(android.R.color.holo_red_dark))
             } else {
                 val hours = durationMillis / (1000 * 60 * 60)
