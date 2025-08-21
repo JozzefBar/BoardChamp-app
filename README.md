@@ -96,7 +96,7 @@ You can download the latest version of BoardChamp APK here:
 - [x] Confirmation of actions, such as deleting a session, etc. - to save if someone missclicks
 - [x] Change colors for data entry in create/edit session - if the user has dark mode it is not clearly visible - *(dark theme and light theme added)*
 - [x] In session editing there is no validation for player's position.
-- [ ] Fix deprecated code
+- [x] Fix deprecated code
 
 ## ⏳ Functionality that was planned but not done
 - A button from the main menu that would create a new scenario, where there would be **player statistics** - this is related to the possibility of automatically adding someone with a name similar to the one the user enters when adding a new player, so that there would be no case where there are two names, _Josh_ and _JOSH_, and because of the different characters it would be taken as two different players. Therefore, the statistics would also show them differently.
