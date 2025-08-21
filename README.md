@@ -14,11 +14,11 @@
 
 BoardChamp allows users to record their board game results and save them locally on the device in JSON format. This enables easy management of game history and tracking of progress.
 
-Users can log detailed statistics including the date and time range during which the game was played. They can also record the players involved, their final rankings, and optionally add notes summarizing the outcome or any important details about the game.
+Users can create and manage individual "cards" for each board game, allowing them to keep track of multiple different games. There is no limit to the number of game cards a user can create, making it easy to organize and maintain statistics across a variety of board games.
+
+Moreover, users can log detailed statistics including the date and time range during which the game was played. They can also record the players involved, their final rankings, and optionally add notes summarizing the outcome or any important details about the game.
 
 Additionally, users can browse their game history to see when and what games were played. They have the option to edit or update specific details of past game sessions.
-
-Moreover, users can create and manage individual "cards" for each board game, allowing them to keep track of multiple different games. There is no limit to the number of game cards a user can create, making it easy to organize and maintain statistics across a variety of board games.
 
 
 ---
@@ -48,18 +48,18 @@ The app contains four main screens (Activities):
 - Main menu of the app.
 - Navigation to other screens.
 - Possibility to create a new game card.
-- Moving your game cards up and down and also option for deletion
-- create a new game session
+- Option for moving your cards up, down and for deletion.
+- Possibility to create a new game session.
+
+### Session Activity
+- Input date, time, players with their score and positions and note
+- Duration is calculated automatically, even if playing past midnight
+- Save the session in JSON format.
 
 ### History Activity
 - Displays a list of all saved sessions arranged by date.
 - Search a specific game session and see the details.
 - Select a session to edit some details.
-
-### Session Activity
-- Input date, time, players with their score and positions and note
-- Duration is calculated automatically, even if playing past midnight
-- Save results and notes in JSON format.
 
 ### Edit Activity
 - Edit existing records - time, note and player's score and position.
@@ -95,3 +95,5 @@ The app contains four main screens (Activities):
 - [x] Confirmation of actions, such as deleting a session, etc. - to save if someone missclicks
 - [x] Change colors for data entry in create/edit session - if the user has dark mode it is not clearly visible - *(dark theme and light theme added)*
 - [x] In session editing there is no validation for player's position.
+
+## ⏳ Functionality that was planned but not done
