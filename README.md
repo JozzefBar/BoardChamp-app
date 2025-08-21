@@ -82,7 +82,7 @@ The app contains four main screens (Activities):
 
 ## 📱 Download on your android
 You can download the latest version of BoardChamp APK here:  
-[Download BoardChamp.apk](https://github.com/JozzefBar/BoardChamp-app/releases/download/v1.0/app-debug.apk)
+[Download BoardChamp.apk](https://github.com/JozzefBar/BoardChamp-app/releases/download/v1.1/app-debug.apk)
 
 ## 🐞 To-Do / Known Issues
 
