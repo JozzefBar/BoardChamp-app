@@ -14,6 +14,7 @@ import java.util.Locale
 
 class EditSessionActivity : AppCompatActivity() {
 
+    private lateinit var gameTitle: TextView
     private lateinit var tvGameDate: TextView
     private lateinit var btnStartTime: Button
     private lateinit var btnEndTime: Button
@@ -25,14 +26,25 @@ class EditSessionActivity : AppCompatActivity() {
 
     private var startTime: Calendar? = null
     private var endTime: Calendar? = null
-
     private val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     private var gameDate: Calendar = Calendar.getInstance()
+    private var gameName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_session)
 
+        // Getting the game name from an Intent
+        gameName = intent.getStringExtra("game_name") ?: "Unknown Game"
+
+        initializeViews()
+        setupClickListeners()
+        loadSessionData()
+        updateGameTitle()
+    }
+
+    private fun initializeViews() {
+        gameTitle = findViewById(R.id.gameTitle)
         tvGameDate = findViewById(R.id.tvGameDate)
         btnStartTime = findViewById(R.id.btnStartTime)
         btnEndTime = findViewById(R.id.btnEndTime)
@@ -41,9 +53,9 @@ class EditSessionActivity : AppCompatActivity() {
         etNotes = findViewById(R.id.etNotes)
         btnCancel = findViewById(R.id.btnCancel)
         btnEdit = findViewById(R.id.btnEdit)
+    }
 
-        loadSessionData()
-
+    private fun setupClickListeners() {
         tvGameDate.setOnClickListener {
             // Date editing is completely disabled
             Toast.makeText(this, "Date cannot be changed", Toast.LENGTH_SHORT).show()
@@ -64,6 +76,10 @@ class EditSessionActivity : AppCompatActivity() {
         btnEdit.setOnClickListener {
             saveSession()
         }
+    }
+
+    private fun updateGameTitle() {
+        gameTitle.text = getString(R.string.edit_game, gameName)
     }
 
     private fun loadSessionData() {
