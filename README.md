@@ -30,16 +30,34 @@ The app contains four main screens (Activities):
 - **Main Activity**  
   The entry screen of the app, where users can navigate to history, create a new game card or start a new session.
 
-- **History Activity**  
-  Displays a list of all saved game sessions, allowing searching and viewing details.
-
 - **Session Activity**  
   Used to enter results of a new game session. Users can input scores and other match details.
+
+- **History Activity**  
+  Displays a list of all saved game sessions, allowing searching and viewing details.
 
 - **Edit Activity**  
   Allows editing of saved records — changing scores, dates, or notes.
 
-	*screenshots will be added later*
+
+_All activities - dark theme_
+
+<p align="left">
+  	<img src="screenshots/MainScreen%20-%20dark.png" alt="Main Activity - dark theme" width="250"/>
+	<img src="screenshots/SessionScreen%20-%20dark.png" alt="Session Activity - dark theme" width="250"/>
+	<img src="screenshots/HistoryScreen%20-%20dark.png" alt="History Activity - dark theme" width="250"/>
+	<img src="screenshots/EditScreen%20-%20dark.png" alt="Edit Activity - dark theme" width="250"/>
+</p>
+
+_All activities - light theme_
+
+<p align="left">
+  <img src="screenshots/MainScreen%20-%20light.png" alt="Main Activity - light theme" width="250"/>
+  <img src="screenshots/SessionScreen%20-%20light.png" alt="Session Activity - light theme" width="250"/>
+	<img src="screenshots/HistoryScreen%20-%20light.png" alt="History Activity - light theme" width="250"/>
+	<img src="screenshots/EditScreen%20-%20light.png" alt="Edit Activity - light theme" width="250"/>
+</p>
+
 ---
 
 ## ⚙️ Features of Each Activity
@@ -48,8 +66,9 @@ The app contains four main screens (Activities):
 - Main menu of the app.
 - Navigation to other screens.
 - Possibility to create a new game card.
-- Option for moving your cards up, down and for deletion.
+- Option for moving your cards up, down and deletion.
 - Possibility to create a new game session.
+- Button for switching between light and dark theme
 
 ### Session Activity
 - Input date, time, players with their score and positions and note
@@ -60,6 +79,8 @@ The app contains four main screens (Activities):
 - Displays a list of all saved sessions arranged by date.
 - Search a specific game session and see the details.
 - Select a session to edit some details.
+- Remove existing session
+
 
 ### Edit Activity
 - Edit existing records - time, note and player's score and position.
@@ -74,15 +95,19 @@ The app contains four main screens (Activities):
 
 ---
 
+## 📱 Download on your android
+You can download the latest version of BoardChamp APK here:  
+[Download BoardChamp.apk](https://github.com/JozzefBar/BoardChamp-app/releases/download/v1.1/app-release.apk)
+
+---
+
 ## 🚀 How to Run the Project
 
 1. Clone the repository using Git command:
    ```bash
    git clone https://github.com/JozzefBar/BoardChamp-app.git
 
-## 📱 Download on your android
-You can download the latest version of BoardChamp APK here:  
-[Download BoardChamp.apk](https://github.com/JozzefBar/BoardChamp-app/releases/download/v1.1/app-release.apk)
+---
 
 ## 🐞 To-Do / Known Issues
 
@@ -97,6 +122,8 @@ You can download the latest version of BoardChamp APK here:
 - [x] Change colors for data entry in create/edit session - if the user has dark mode it is not clearly visible - *(dark theme and light theme added)*
 - [x] In session editing there is no validation for player's position.
 - [x] Fix deprecated code
+
+---
 
 ## ⏳ Functionality that was planned but not done
 - A button from the main menu that would create a new scenario, where there would be **player statistics** - this is related to the possibility of automatically adding someone with a name similar to the one the user enters when adding a new player, so that there would be no case where there are two names, _Josh_ and _JOSH_, and because of the different characters it would be taken as two different players. Therefore, the statistics would also show them differently.
