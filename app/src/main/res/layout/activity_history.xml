@@ -8,27 +8,49 @@
         android:padding="16dp"
         tools:context=".HistoryActivity">
 
-    <!-- Header -->
-    <TextView
-            android:id="@+id/tvHistoryTitle"
+    <!-- Header with title and Import button -->
+    <LinearLayout
+            android:id="@+id/headerLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Game History"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textAlignment="center"
-            android:textStyle="bold"
-            android:layout_marginBottom="24dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="16dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:textColor="?attr/colorOnSurfaceVariant"/>
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+                android:id="@+id/tvHistoryTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Game History"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textAlignment="center"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:textColor="?attr/colorOnSurfaceVariant"/>
+
+        <Button
+                android:id="@+id/btnImportSession"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Import"
+                android:drawableStart="@android:drawable/ic_menu_upload"
+                android:drawablePadding="4dp"/>
+
+    </LinearLayout>
 
     <!-- ScrollView for History -->
     <ScrollView
+            android:id="@+id/historyScrollView"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/tvHistoryTitle"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/headerLayout"
             app:layout_constraintBottom_toTopOf="@id/btnBack"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">

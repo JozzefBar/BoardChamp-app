@@ -1,5 +1,7 @@
 package com.example.boardchamp
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -21,6 +23,7 @@ class HistoryActivity : AppCompatActivity() {
     private lateinit var historyContainer: LinearLayout
     private lateinit var tvNoHistory: TextView
     private lateinit var btnBack: Button
+    private lateinit var btnImportSession: Button
 
     private val editSessionLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -49,10 +52,12 @@ class HistoryActivity : AppCompatActivity() {
         historyContainer = findViewById(R.id.historyContainer)
         tvNoHistory = findViewById(R.id.tvNoHistory)
         btnBack = findViewById(R.id.btnBack)
+        btnImportSession = findViewById(R.id.btnImportSession)
     }
 
     private fun setupClickListeners() {
         btnBack.setOnClickListener { finish() }
+        btnImportSession.setOnClickListener { importSessionFromClipboard() }
     }
 
     private fun loadAndDisplayHistory() {
@@ -105,16 +110,27 @@ class HistoryActivity : AppCompatActivity() {
         try {
             val inflater = LayoutInflater.from(this)
             val sessionView = inflater.inflate(R.layout.session_history_item, historyContainer, false)
+            // Tag the view with session ID for scrolling
+            sessionView.tag = session.id
 
             val tvGameName = sessionView.findViewById<TextView>(R.id.tvGameName)
+            val tvImportedBadge = sessionView.findViewById<TextView>(R.id.tvImportedBadge)
             val tvTimeRange = sessionView.findViewById<TextView>(R.id.tvTimeRange)
             val tvDuration = sessionView.findViewById<TextView>(R.id.tvDuration)
             val playersListContainer = sessionView.findViewById<LinearLayout>(R.id.playersListContainer)
             val tvNotes = sessionView.findViewById<TextView>(R.id.tvNotes)
             val btnDelete = sessionView.findViewById<ImageButton>(R.id.btnDeleteSession)
             val btnEdit = sessionView.findViewById<ImageButton>(R.id.btnEditSession)
+            val btnShare = sessionView.findViewById<ImageButton>(R.id.btnShareSession)
 
             tvGameName.text = session.gameName
+
+            // Show imported badge if session was imported
+            if (session.isImported) {
+                tvImportedBadge.visibility = View.VISIBLE
+            } else {
+                tvImportedBadge.visibility = View.GONE
+            }
 
             val dayDifference = session.endTime.get(Calendar.DAY_OF_YEAR) - session.startTime.get(Calendar.DAY_OF_YEAR)
             val timeRange = if (dayDifference > 0) {
@@ -143,26 +159,24 @@ class HistoryActivity : AppCompatActivity() {
                 confirmDelete(session.id)
             }
 
+            btnShare.setOnClickListener {
+                shareSession(session)
+            }
+
             btnEdit.setOnClickListener {
-                val intent = Intent(this, EditSessionActivity::class.java).apply {
-                    putExtra("session_id", session.id)
-                    putExtra("game_name", session.gameName)
-                    putExtra("game_date", session.gameDate.timeInMillis)
-                    putExtra("start_time", session.startTime.timeInMillis)
-                    putExtra("end_time", session.endTime.timeInMillis)
-                    putExtra("notes", session.notes)
-                    val playersJson = JSONArray().apply {
-                        session.players.forEach { player ->
-                            put(JSONObject().apply {
-                                put("name", player.name)
-                                put("score", player.score)
-                                put("position", player.position)
-                            })
+                // Show confirmation if session is imported
+                if (session.isImported) {
+                    AlertDialog.Builder(this)
+                        .setTitle("Edit Imported Session")
+                        .setMessage("This session was imported from someone else. If you edit it, your version will be different from theirs.\n\nAre you sure you want to edit?")
+                        .setPositiveButton("Yes, Edit") { _, _ ->
+                            launchEditActivity(session)
                         }
-                    }
-                    putExtra("players", playersJson.toString())
+                        .setNegativeButton("Cancel", null)
+                        .show()
+                } else {
+                    launchEditActivity(session)
                 }
-                editSessionLauncher.launch(intent)
             }
 
             historyContainer.addView(sessionView)
@@ -348,7 +362,8 @@ class HistoryActivity : AppCompatActivity() {
                             startTime = Calendar.getInstance().apply { timeInMillis = sessionJson.optLong("startTime", System.currentTimeMillis()) },
                             endTime = Calendar.getInstance().apply { timeInMillis = sessionJson.optLong("endTime", System.currentTimeMillis()) },
                             players = players,
-                            notes = sessionJson.optString("notes", "")
+                            notes = sessionJson.optString("notes", ""),
+                            isImported = sessionJson.optBoolean("isImported", false)
                         )
                         sessions.add(session)
                     } catch (e: Exception) {
@@ -376,6 +391,7 @@ class HistoryActivity : AppCompatActivity() {
                         put("startTime", gameSession.startTime.timeInMillis)
                         put("endTime", gameSession.endTime.timeInMillis)
                         put("notes", gameSession.notes)
+                        put("isImported", gameSession.isImported)
                         val playersArray = JSONArray()
                         gameSession.players.forEach { player ->
                             val playerJson = JSONObject().apply {
@@ -416,6 +432,28 @@ class HistoryActivity : AppCompatActivity() {
         } catch (e: Exception) {
             "Invalid Time"
         }
+    }
+
+    private fun launchEditActivity(session: GameSession) {
+        val intent = Intent(this, EditSessionActivity::class.java).apply {
+            putExtra("session_id", session.id)
+            putExtra("game_name", session.gameName)
+            putExtra("game_date", session.gameDate.timeInMillis)
+            putExtra("start_time", session.startTime.timeInMillis)
+            putExtra("end_time", session.endTime.timeInMillis)
+            putExtra("notes", session.notes)
+            val playersJson = JSONArray().apply {
+                session.players.forEach { player ->
+                    put(JSONObject().apply {
+                        put("name", player.name)
+                        put("score", player.score)
+                        put("position", player.position)
+                    })
+                }
+            }
+            putExtra("players", playersJson.toString())
+        }
+        editSessionLauncher.launch(intent)
     }
 
     private fun handleEditSessionResult(data: Intent) {
@@ -465,6 +503,192 @@ class HistoryActivity : AppCompatActivity() {
         }
     }
 
+    private fun shareSession(session: GameSession) {
+        try {
+            // Create JSON object for the session
+            val sessionJson = JSONObject().apply {
+                put("gameName", session.gameName)
+                put("gameDate", session.gameDate.timeInMillis)
+                put("startTime", session.startTime.timeInMillis)
+                put("endTime", session.endTime.timeInMillis)
+                put("notes", session.notes)
+                val playersArray = JSONArray()
+                session.players.forEach { player ->
+                    val playerJson = JSONObject().apply {
+                        put("name", player.name)
+                        put("score", player.score)
+                        put("position", player.position)
+                    }
+                    playersArray.put(playerJson)
+                }
+                put("players", playersArray)
+            }
+
+            // Copy to clipboard
+            val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clip = ClipData.newPlainText("Game Session", sessionJson.toString())
+            clipboard.setPrimaryClip(clip)
+
+            Toast.makeText(this, "Session copied to clipboard! You can now share it.", Toast.LENGTH_LONG).show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error sharing session: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun importSessionFromClipboard() {
+        try {
+            // Get clipboard content
+            val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            if (!clipboard.hasPrimaryClip()) {
+                Toast.makeText(this, "Clipboard is empty", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            val clipData = clipboard.primaryClip
+            if (clipData == null || clipData.itemCount == 0) {
+                Toast.makeText(this, "No data in clipboard", Toast.LENGTH_SHORT).show()
+                return
+            }
+
+            val clipText = clipData.getItemAt(0).text.toString()
+
+            // Parse JSON
+            val sessionJson = JSONObject(clipText)
+
+            // Validate required fields
+            if (!sessionJson.has("gameName") || !sessionJson.has("gameDate") ||
+                !sessionJson.has("startTime") || !sessionJson.has("endTime") ||
+                !sessionJson.has("players")) {
+                Toast.makeText(this, "Invalid session format. Missing required fields.", Toast.LENGTH_LONG).show()
+                return
+            }
+
+            // Extract session data
+            val gameName = sessionJson.optString("gameName", "Imported Game")
+            val gameDate = Calendar.getInstance().apply {
+                timeInMillis = sessionJson.getLong("gameDate")
+            }
+            val startTime = Calendar.getInstance().apply {
+                timeInMillis = sessionJson.getLong("startTime")
+            }
+            val endTime = Calendar.getInstance().apply {
+                timeInMillis = sessionJson.getLong("endTime")
+            }
+            val notes = sessionJson.optString("notes", "")
+
+            // Extract players
+            val players = mutableListOf<PlayerData>()
+            val playersArray = sessionJson.getJSONArray("players")
+
+            // Validate that there is at least one player
+            if (playersArray.length() == 0) {
+                Toast.makeText(this, "Invalid session: No players recorded. A session must have at least one player.", Toast.LENGTH_LONG).show()
+                return
+            }
+
+            for (i in 0 until playersArray.length()) {
+                val playerJson = playersArray.getJSONObject(i)
+
+                if (!playerJson.has("name") || !playerJson.has("score") || !playerJson.has("position")) {
+                    Toast.makeText(this, "Invalid player data in session.", Toast.LENGTH_LONG).show()
+                    return
+                }
+
+                players.add(PlayerData(
+                    name = playerJson.getString("name"),
+                    score = playerJson.getInt("score"),
+                    position = playerJson.getInt("position")
+                ))
+            }
+
+            // Create new session
+            val newSession = GameSession(
+                id = System.currentTimeMillis(), // Generate new unique ID
+                gameName = gameName,
+                gameDate = gameDate,
+                startTime = startTime,
+                endTime = endTime,
+                players = players,
+                notes = notes,
+                isImported = true
+            )
+
+            // Check for duplicates
+            val sessions = loadSessionsFromHistory().toMutableList()
+            val duplicate = sessions.find {
+                it.gameName == newSession.gameName &&
+                        it.gameDate.timeInMillis == newSession.gameDate.timeInMillis &&
+                        it.startTime.timeInMillis == newSession.startTime.timeInMillis &&
+                        it.endTime.timeInMillis == newSession.endTime.timeInMillis
+            }
+
+            if (duplicate != null) {
+                // Show confirmation dialog for duplicate
+                AlertDialog.Builder(this)
+                    .setTitle("Duplicate Session")
+                    .setMessage("A session with the same game name, date, and time already exists.\n\nDo you want to import it anyway?")
+                    .setPositiveButton("Yes, Import") { _, _ ->
+                        sessions.add(newSession)
+                        saveSessionsToHistory(sessions)
+                        loadAndDisplayHistory()
+                        Toast.makeText(this, "Session imported successfully!", Toast.LENGTH_LONG).show()
+
+                        historyContainer.postDelayed({
+                            scrollToSession(newSession.id)
+                        }, 300)
+                    }
+                    .setNegativeButton("Cancel", null)
+                    .show()
+                return
+            }
+
+            // Add to history
+            sessions.add(newSession)
+            saveSessionsToHistory(sessions)
+
+            // Refresh display
+            loadAndDisplayHistory()
+
+            Toast.makeText(this, "Session imported successfully!", Toast.LENGTH_LONG).show()
+
+            // Scroll to imported session after a short delay
+            historyContainer.postDelayed({
+                scrollToSession(newSession.id)
+            }, 300)
+
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error importing session. Make sure you copied a valid session.", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun scrollToSession(sessionId: Long) {
+        try {
+            // Find the imported session card
+            for (i in 0 until historyContainer.childCount) {
+                val view = historyContainer.getChildAt(i)
+
+                // Check if this view contains our session by checking the session data
+                if (view.tag == sessionId) {
+                    val scrollView = findViewById<ScrollView>(R.id.historyScrollView)
+
+                    // Scroll to the session card with smooth animation
+                    scrollView?.smoothScrollTo(0, view.top - 20)
+
+                    // highlight the card
+                    view.alpha = 0.3f
+                    view.animate().alpha(1f).setDuration(500).start()
+
+                    break
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
     data class PlayerData(val name: String, val score: Int, val position: Int)
     data class GameSession(
         val id: Long,
@@ -473,6 +697,7 @@ class HistoryActivity : AppCompatActivity() {
         val startTime: Calendar,
         val endTime: Calendar,
         val players: List<PlayerData>,
-        val notes: String
+        val notes: String,
+        val isImported: Boolean = false
     )
 }
