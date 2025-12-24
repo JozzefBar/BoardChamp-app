@@ -18,7 +18,7 @@ Users can create and manage individual "cards" for each board game, allowing the
 
 Moreover, users can log detailed statistics including the date and time range during which the game was played. They can also record the players involved, their final rankings, and optionally add notes summarizing the outcome or any important details about the game.
 
-Additionally, users can browse their game history to see when and what games were played. They have the option to edit or update specific details of past game sessions.
+Additionally, users can browse their game history to see when and what games were played. They have the option to edit or update specific details of past game sessions. Also there is a possibility to export and import your game session.
 
 
 ---
@@ -34,7 +34,7 @@ The app contains four main screens (Activities):
   Used to enter results of a new game session. Users can input scores and other match details.
 
 - **History Activity**  
-  Displays a list of all saved game sessions, allowing searching and viewing details.
+  Displays a list of all saved game sessions, allowing searching and viewing details, exporting and importing game sessions.
 
 - **Edit Activity**  
   Allows editing of saved records — changing scores, dates, or notes.
@@ -79,7 +79,8 @@ _All activities - light theme_
 - Displays a list of all saved sessions arranged by date.
 - Search a specific game session and see the details.
 - Select a session to edit some details.
-- Remove existing session
+- Remove existing session.
+- Import and export sessions with friends.
 
 
 ### Edit Activity
@@ -94,6 +95,11 @@ _All activities - light theme_
 - JSON (for data storage and loading)  
 
 ---
+
+## 📝 Important Notes
+- This app remains **100% local** - no cloud storage or accounts needed
+- Your data stays private on your device
+- Sessions are shared manually through your preferred messaging apps
 
 ## 📱 Download on your android
 You can download the latest version of BoardChamp APK here:  
@@ -122,6 +128,7 @@ You can download the latest version of BoardChamp APK here:
 - [x] Change colors for data entry in create/edit session - if the user has dark mode it is not clearly visible - *(dark theme and light theme added)*
 - [x] In session editing there is no validation for player's position.
 - [x] Fix deprecated code
+- [x] Export/Import added
 
 ---
 
