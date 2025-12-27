@@ -97,7 +97,13 @@ class EditSessionActivity : AppCompatActivity() {
         endTime = Calendar.getInstance().apply { timeInMillis = endTimeMillis }
 
         btnStartTime.text = formatTime(startTime!!)
-        updateEndTimeDisplay()
+
+        val dayDiff = endTime!!.get(Calendar.DAY_OF_YEAR) - startTime!!.get(Calendar.DAY_OF_YEAR)
+        btnEndTime.text = if (dayDiff > 0) {
+            getString(R.string.end_time_plus_day, formatTime(endTime!!))
+        } else {
+            formatTime(endTime!!)
+        }
 
         etNotes.setText(notes)
 

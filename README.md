@@ -43,19 +43,19 @@ The app contains four main screens (Activities):
 _All activities - dark theme_
 
 <p align="left">
-  	<img src="screenshots/MainScreen%20-%20dark.png" alt="Main Activity - dark theme" width="250"/>
-	<img src="screenshots/SessionScreen%20-%20dark.png" alt="Session Activity - dark theme" width="250"/>
-	<img src="screenshots/HistoryScreen%20-%20dark.png" alt="History Activity - dark theme" width="250"/>
-	<img src="screenshots/EditScreen%20-%20dark.png" alt="Edit Activity - dark theme" width="250"/>
+  	<img src="screenshots/preV1.2/MainScreen%20-%20dark.png" alt="Main Activity - dark theme" width="250"/>
+	<img src="screenshots/preV1.2/SessionScreen%20-%20dark.png" alt="Session Activity - dark theme" width="250"/>
+	<img src="screenshots/preV1.2/HistoryScreen%20-%20dark.png" alt="History Activity - dark theme" width="250"/>
+	<img src="screenshots/preV1.2/EditScreen%20-%20dark.png" alt="Edit Activity - dark theme" width="250"/>
 </p>
 
 _All activities - light theme_
 
 <p align="left">
-  <img src="screenshots/MainScreen%20-%20light.png" alt="Main Activity - light theme" width="250"/>
-  <img src="screenshots/SessionScreen%20-%20light.png" alt="Session Activity - light theme" width="250"/>
-	<img src="screenshots/HistoryScreen%20-%20light.png" alt="History Activity - light theme" width="250"/>
-	<img src="screenshots/EditScreen%20-%20light.png" alt="Edit Activity - light theme" width="250"/>
+  <img src="screenshots/preV1.2/MainScreen%20-%20light.png" alt="Main Activity - light theme" width="250"/>
+  <img src="screenshots/preV1.2/SessionScreen%20-%20light.png" alt="Session Activity - light theme" width="250"/>
+	<img src="screenshots/preV1.2/HistoryScreen%20-%20light.png" alt="History Activity - light theme" width="250"/>
+	<img src="screenshots/preV1.2/EditScreen%20-%20light.png" alt="Edit Activity - light theme" width="250"/>
 </p>
 
 ---
@@ -100,10 +100,11 @@ _All activities - light theme_
 - This app remains **100% local** - no cloud storage or accounts needed
 - Your data stays private on your device
 - Sessions are shared manually through your preferred messaging apps
+-  ~~**SK/EN** translations are available~~ (VERSION NOT PUBLISHED YET)
 
 ## 📱 Download on your android
 You can download the latest version of BoardChamp APK here:  
-[Download BoardChamp.apk](https://github.com/JozzefBar/BoardChamp-app/releases/download/v1.1/app-release.apk)
+[Download BoardChamp.apk](https://github.com/JozzefBar/BoardChamp-app/releases/download/v1.2/app-release.apk)
 
 ---
 
@@ -121,7 +122,7 @@ You can download the latest version of BoardChamp APK here:
 - [x] Possibility to edit player's name, score and position - *(name cannot be changed)*
 - [ ] Better banner and visuals - *not that important*
 - [ ] Performance is not tested with a large number of game cards/sessions in history etc.
-- [ ] Improve visuals - *not that important*
+- [x] Improve visuals - *not that important*
 - [ ] In some specific parts there is duplicity in code - *not that important*
 - [x] Possibility to download on android easily
 - [x] Confirmation of actions, such as deleting a session, etc. - to save if someone missclicks
@@ -129,6 +130,7 @@ You can download the latest version of BoardChamp APK here:
 - [x] In session editing there is no validation for player's position.
 - [x] Fix deprecated code
 - [x] Export/Import added
+- [ ] SK Translation
 
 ---
 

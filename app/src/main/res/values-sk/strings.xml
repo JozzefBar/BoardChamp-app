@@ -125,5 +125,12 @@
     <string name="zero">0</string>
     <string name="position">Pozícia:</string>
     <string name="first">1.:</string>
+    <string name="Imported">📥 Importované</string>
+    <string name="share_session">Zdieľať partiu</string>
+    <string name="edit_session">Upraviť partiu</string>
+    <string name="delete_session">Vymazať partiu</string>
+    <string name="_19_30_21_45">19:30 – 21:45</string>
+    <string name="duration_2h_15m">Trvanie: 2h 15m</string>
+    <string name="notes_great_game_close_finish">Poznámky: Skvelá hra, tesný záver!</string>
 
 </resources>

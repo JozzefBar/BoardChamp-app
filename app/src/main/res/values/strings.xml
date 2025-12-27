@@ -124,5 +124,12 @@
     <string name="zero">0</string>
     <string name="position">Position:</string>
     <string name="first">1st:</string>
+    <string name="Imported">📥 Imported</string>
+    <string name="share_session">Share session</string>
+    <string name="edit_session">Edit session</string>
+    <string name="delete_session">Delete session</string>
+    <string name="_19_30_21_45">19:30 – 21:45</string>
+    <string name="duration_2h_15m">Duration: 2h 15m</string>
+    <string name="notes_great_game_close_finish">Notes: Great game, close finish!</string>
 
 </resources>

@@ -31,7 +31,7 @@
                         android:id="@+id/tvGameName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Scrabble"
+                        android:text="@string/game_name_hint"
                         android:textAppearance="@style/TextAppearance.AppCompat.Large"
                         android:textStyle="bold"
                         android:textColor="?attr/colorSecondary"/>
@@ -40,7 +40,7 @@
                         android:id="@+id/tvImportedBadge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="📥 IMPORTED"
+                        android:text="@string/Imported"
                         android:textSize="11sp"
                         android:textStyle="bold"
                         android:textColor="#4CAF50"
@@ -58,20 +58,20 @@
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@android:drawable/ic_menu_share"
-                    android:contentDescription="Share session"
+                    android:contentDescription="@string/share_session"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:tint="#4CAF50"
-                    android:layout_marginRight="12dp"/>
+                    android:layout_marginEnd="12dp"/>
 
             <ImageButton
                     android:id="@+id/btnEditSession"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:src="@android:drawable/ic_menu_edit"
-                    android:contentDescription="Edit session"
+                    android:contentDescription="@string/edit_session"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:tint="#2196F3"
-                    android:layout_marginRight="12dp"/>
+                    android:layout_marginEnd="12dp"/>
 
             <ImageButton
                     android:id="@+id/btnDeleteSession"
@@ -79,7 +79,7 @@
                     android:layout_height="32dp"
                     android:src="@android:drawable/ic_menu_delete"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="Delete session"
+                    android:contentDescription="@string/delete_session"
                     android:tint="#FF6B6B"/>
 
         </LinearLayout>
@@ -89,7 +89,7 @@
                 android:id="@+id/tvTimeRange"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="19:30 - 21:45"
+                android:text="@string/_19_30_21_45"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="#666666"
                 android:layout_marginBottom="4dp"
@@ -101,7 +101,7 @@
                 android:id="@+id/tvDuration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Duration: 2h 15m"
+                android:text="@string/duration_2h_15m"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="#888888"
                 android:layout_marginBottom="12dp"/>
@@ -110,7 +110,7 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Players:"
+                android:text="@string/players"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textStyle="bold"
                 android:textColor="#888888"
@@ -134,7 +134,7 @@
                 android:id="@+id/tvNotes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Notes: Great game, close finish!"
+                android:text="@string/notes_great_game_close_finish"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="?attr/colorOnSurfaceVariant"
                 android:textStyle="italic"
