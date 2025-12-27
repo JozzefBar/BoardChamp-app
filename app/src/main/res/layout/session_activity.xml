@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:padding="16dp"
         tools:context=".SessionActivity"
-        android:background="?attr/colorSurface">
+        android:background="?attr/android:colorBackground">
 
     <!-- Header with the game name -->
     <TextView
@@ -43,7 +43,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     app:cardElevation="4dp"
-                    app:cardCornerRadius="8dp">
+                    app:cardCornerRadius="8dp"
+                    app:cardBackgroundColor="@color/card_background">
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -146,7 +147,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     app:cardElevation="4dp"
-                    app:cardCornerRadius="8dp">
+                    app:cardCornerRadius="8dp"
+                    app:cardBackgroundColor="@color/card_background">
 
                 <LinearLayout
                         android:layout_width="match_parent"
@@ -202,7 +204,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     app:cardElevation="4dp"
-                    app:cardCornerRadius="8dp">
+                    app:cardCornerRadius="8dp"
+                    app:cardBackgroundColor="@color/card_background">
 
                 <LinearLayout
                         android:layout_width="match_parent"

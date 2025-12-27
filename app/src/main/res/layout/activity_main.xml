@@ -6,10 +6,9 @@
         android:id="@+id/mainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?attr/colorSurface"
+        android:background="?attr/android:colorBackground"
         tools:context=".MainActivity">
 
-    <!-- Header -->
     <!-- Header -->
     <LinearLayout
             android:id="@+id/headerLayout"
@@ -38,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/choose_your_game"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="?attr/colorOnBackground"
                 android:textAlignment="center"/>
 
     </LinearLayout>
@@ -58,7 +57,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="80dp">
+                android:paddingBottom="40dp">
 
             <!-- Add Game button card -->
             <androidx.cardview.widget.CardView
@@ -66,17 +65,18 @@
                     android:layout_width="180dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="46dp"
+                    android:layout_marginBottom="12dp"
                     app:cardElevation="4dp"
-                    app:cardCornerRadius="8dp">
+                    app:cardCornerRadius="8dp"
+                    app:cardBackgroundColor="@color/card_background">
 
                 <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:padding="16dp"
-                        >
+                        android:padding="16dp">
 
                     <TextView
                             android:text="@string/add_game"
@@ -93,12 +93,24 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:textColor="#FFFFFF"/>
+                            android:textColor="#FFFFFF"
+                            app:cornerRadius="18dp"/>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
         </LinearLayout>
     </ScrollView>
+
+    <!-- Info panel -->
+    <include
+            layout="@layout/info_panel"
+            android:id="@+id/infoPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="80dp"/>
 
     <!-- History button in right bottom corner -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

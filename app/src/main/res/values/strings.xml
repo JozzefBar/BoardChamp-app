@@ -132,4 +132,10 @@
     <string name="duration_2h_15m">Duration: 2h 15m</string>
     <string name="notes_great_game_close_finish">Notes: Great game, close finish!</string>
 
+    <!-- Info Panel -->
+    <string name="open_github">Open GitHub Repository</string>
+    <string name="info">Info</string>
+    <string name="check_github_updates">Check my GitHub for updates!</string>
+    <string name="error_opening_github">Could not open GitHub %1$s</string>
+
 </resources>

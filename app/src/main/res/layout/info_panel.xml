@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/infoPanel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="8dp"
+        app:cardBackgroundColor="@color/card_background">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:gravity="center_vertical">
+
+        <!-- Expand/Collapse button -->
+        <ImageButton
+                android:id="@+id/btnToggleInfo"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@android:drawable/ic_menu_info_details"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/info"
+                android:tint="?attr/colorPrimary"/>
+
+        <!-- Text (expandable) -->
+        <TextView
+                android:id="@+id/tvInfoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/check_github_updates"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="?attr/colorOnSurface"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:visibility="gone"/>
+
+        <!-- GitHub icon button -->
+        <ImageButton
+                android:id="@+id/btnGitHubSmall"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_github"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/open_github"
+                android:tint="?attr/colorPrimary"
+                android:visibility="gone"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -1,20 +1,18 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.BoardChamp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- Status bar color -->
-        <item name="android:statusBarColor">@color/status_bar_color</item>
-
-        <!-- Main colors -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.BoardChamp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary_color</item>
-        <item name="colorSecondary">@color/secondary_color</item>
+        <item name="colorPrimaryVariant">@color/primary_container</item>
         <item name="colorOnPrimary">@color/on_primary_color</item>
-        <item name="colorPrimaryContainer">@color/primary_container</item>
+        <item name="colorSecondary">@color/secondary_color</item>
 
-        <!-- Surface colors -->
+        <item name="android:colorBackground">@color/background_color</item>
+        <item name="colorOnBackground">@color/on_background_color</item>
         <item name="colorSurface">@color/surface_color</item>
         <item name="colorOnSurface">@color/on_surface_color</item>
-    </style>
+        <item name="colorSurfaceVariant">@color/field_background</item>
+        <item name="colorOnSurfaceVariant">@color/field_hint_color</item>
 
-    <style name="Theme.BoardChamp" parent="Base.Theme.BoardChamp"/>
+        <item name="android:statusBarColor">@color/status_bar_color</item>
+    </style>
 </resources>

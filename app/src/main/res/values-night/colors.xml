@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="status_bar_color">#673AB7</color>
-
-    <!-- Main colors -->
+    <!-- Primary colors -->
     <color name="primary_color">#673AB7</color>
     <color name="secondary_color">#2E7D32</color>
-    <color name="on_primary_color">#000000</color>
     <color name="primary_container">#3700B3</color>
+    <color name="on_primary_color">#FFFFFF</color>
+    <color name="status_bar_color">#673AB7</color>
 
-    <!-- Background -->
-    <color name="background_color">#121212</color>
-    <color name="on_background_color">#FFFFFF</color>
-
-    <!-- Surface elements (CardView, Surface) -->
-    <color name="surface_color">#1E1E1E</color>
+    <!-- Dark mode specific -->
+    <color name="background_color">#0D0D0D</color>
+    <color name="on_background_color">#E0E0E0</color>
+    <color name="surface_color">#252525</color>
     <color name="on_surface_color">#FFFFFF</color>
-
-    <!-- Fields to fill in (EditText, TextInputLayout) -->
-    <color name="field_background">#2A2A2A</color>
+    <color name="field_background">#2E2E2E</color>
     <color name="field_text_color">#FFFFFF</color>
-    <color name="field_hint_color">#B3B3B3</color>
+    <color name="field_hint_color">#B0B0B0</color>
+
+    <!-- Card background -->
+    <color name="card_background">#252525</color>
+
+    <!-- Text colors -->
+    <color name="text_secondary">#B0B0B0</color>
+    <color name="text_tertiary">#999999</color>
 </resources>

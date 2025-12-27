@@ -7,7 +7,7 @@
         android:layout_marginBottom="8dp"
         app:cardElevation="2dp"
         app:cardCornerRadius="4dp"
-        app:cardBackgroundColor="?attr/colorSurface">
+        app:cardBackgroundColor="@color/card_background">
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -29,6 +29,7 @@
                     android:layout_weight="1"
                     android:autofillHints=""
                     android:hint="@string/player_name"
+                    android:inputType="text|textNoSuggestions"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:background="@android:color/transparent"
                     android:maxLines="1"/>
@@ -62,7 +63,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
-                        android:textColor="#666666"/>
+                        android:textColor="@color/text_secondary"/>
 
                 <EditText
                         android:id="@+id/etPlayerScore"
@@ -90,7 +91,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
-                        android:textColor="#666666"/>
+                        android:textColor="@color/text_secondary"/>
 
                 <EditText
                         android:id="@+id/etPlayerPosition"

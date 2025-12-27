@@ -3,6 +3,7 @@ package com.example.boardchamp
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -23,6 +25,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var historyButton: FloatingActionButton
     private lateinit var themeSwitcherButton: FloatingActionButton
     private lateinit var staticLayout: LinearLayout
+
+    // Info card
+    private lateinit var infoPanel: View
+    private lateinit var btnToggleInfo: ImageButton
+    private lateinit var tvInfoText: TextView
+    private lateinit var btnGitHubSmall: ImageButton
+    private var isInfoExpanded = false
+
     private val gameList = mutableListOf<String>() // list of games
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +46,13 @@ class MainActivity : AppCompatActivity() {
         addButton = findViewById(R.id.button)
         historyButton = findViewById(R.id.btnHistory)
         themeSwitcherButton = findViewById(R.id.btnThemeSwitch)
+
+        // Info panel initialization
+        infoPanel = findViewById(R.id.infoPanel)
+        btnToggleInfo = infoPanel.findViewById(R.id.btnToggleInfo)
+        tvInfoText = infoPanel.findViewById(R.id.tvInfoText)
+        btnGitHubSmall = infoPanel.findViewById(R.id.btnGitHubSmall)
+        setupInfoPanel()
 
         // Loading saved games and creating cards
         gameList.addAll(loadGameList())
@@ -60,6 +77,40 @@ class MainActivity : AppCompatActivity() {
             else{
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
             }
+        }
+    }
+
+    private fun setupInfoPanel() {
+        btnToggleInfo.setOnClickListener {
+            toggleInfoPanel()
+        }
+
+        btnGitHubSmall.setOnClickListener {
+            openGitHub()
+        }
+    }
+
+    private fun toggleInfoPanel() {
+        isInfoExpanded = !isInfoExpanded
+
+        if (isInfoExpanded) {
+            // Expand - show text and GitHub button
+            tvInfoText.visibility = View.VISIBLE
+            btnGitHubSmall.visibility = View.VISIBLE
+        } else {
+            // Collapse - hide text and GitHub button
+            tvInfoText.visibility = View.GONE
+            btnGitHubSmall.visibility = View.GONE
+        }
+    }
+
+    private fun openGitHub() {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse("https://github.com/JozzefBar/BoardChamp-app")
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(this, getString(R.string.error_opening_github, e.message), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -120,7 +171,7 @@ class MainActivity : AppCompatActivity() {
         val cardView = inflater.inflate(R.layout.game_card_layout, staticLayout, false)
 
         //Setting the game name
-        val gameNameText = cardView.findViewById<android.widget.TextView>(R.id.gameNameText)
+        val gameNameText = cardView.findViewById<TextView>(R.id.gameNameText)
         gameNameText.text = gameName
 
         //Setting up a click listener for the play button - opens a SessionActivity

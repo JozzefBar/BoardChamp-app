@@ -18,7 +18,7 @@ Users can create and manage individual "cards" for each board game, allowing the
 
 Moreover, users can log detailed statistics including the date and time range during which the game was played. They can also record the players involved, their final rankings, and optionally add notes summarizing the outcome or any important details about the game.
 
-Additionally, users can browse their game history to see when and what games were played. They have the option to edit or update specific details of past game sessions. Also there is a possibility to export and import your game session.
+Additionally, users can browse their game history to see when and what games were played. They have the option to edit or update specific details of past game sessions. Also, there is a possibility to export and import your game session.
 
 
 ---
@@ -119,13 +119,13 @@ You can download the latest version of BoardChamp APK here:
 ## 🐞 To-Do / Known Issues
 
 - [x] Fix the bug during the editing time on session - duration past midnight is calculated wrong
-- [x] Possibility to edit player's name, score and position - *(name cannot be changed)*
+- [x] Possibility to edit player's score and position - *(name cannot be changed)*
 - [ ] Better banner and visuals - *not that important*
 - [ ] Performance is not tested with a large number of game cards/sessions in history etc.
 - [x] Improve visuals - *not that important*
 - [ ] In some specific parts there is duplicity in code - *not that important*
 - [x] Possibility to download on android easily
-- [x] Confirmation of actions, such as deleting a session, etc. - to save if someone missclicks
+- [x] Confirmation of actions, such as deleting a session, etc. - to save if someone miss clicks
 - [x] Change colors for data entry in create/edit session - if the user has dark mode it is not clearly visible - *(dark theme and light theme added)*
 - [x] In session editing there is no validation for player's position.
 - [x] Fix deprecated code
