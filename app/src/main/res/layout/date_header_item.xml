@@ -19,7 +19,7 @@
             android:id="@+id/tvDateHeader"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="01.01.2025"
+            android:text="@string/date_header"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textStyle="bold"
             android:paddingStart="8dp"

@@ -6,14 +6,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        tools:context=".EditSessionActivity">
+        tools:context=".EditSessionActivity"
+        android:background="?attr/colorSurface">
 
     <!-- Header -->
     <TextView
             android:id="@+id/gameTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Game Name - Edit Session"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textAlignment="center"
@@ -50,7 +50,7 @@
                         android:padding="16dp">
 
                     <TextView
-                            android:text="Game Date &amp; Duration"
+                            android:text="@string/game_date_duration"
                             android:textStyle="bold"
                             android:textSize="16sp"
                             android:layout_marginBottom="12dp"
@@ -61,7 +61,7 @@
                             android:id="@+id/tvGameDate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="dd.MM.yyyy"
+                            android:text="@string/game_date_dd"
                             android:textAlignment="center"
                             android:textStyle="italic"
                             android:textColor="?attr/colorOnSurfaceVariant"
@@ -78,14 +78,14 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Start Time:" />
+                                android:text="@string/start_time_colon" />
 
                         <Button
                                 android:id="@+id/btnStartTime"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Select Time"
+                                android:text="@string/select_time"
                                 style="?android:attr/buttonStyleSmall" />
                     </LinearLayout>
 
@@ -99,14 +99,14 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="End Time:" />
+                                android:text="@string/end_time_colon" />
 
                         <Button
                                 android:id="@+id/btnEndTime"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Select Time"
+                                android:text="@string/select_time"
                                 style="?android:attr/buttonStyleSmall" />
                     </LinearLayout>
 
@@ -114,7 +114,7 @@
                             android:id="@+id/tvDuration"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Duration: --"
+                            android:text="@string/duration_"
                             android:textAlignment="center"
                             android:textStyle="italic"
                             android:layout_marginTop="12dp"
@@ -145,7 +145,7 @@
                             android:layout_marginBottom="12dp">
 
                         <TextView
-                                android:text="Players"
+                                android:text="@string/players"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                                 android:textStyle="bold"
                                 android:layout_width="0dp"
@@ -179,7 +179,7 @@
                         android:padding="16dp">
 
                     <TextView
-                            android:text="Notes"
+                            android:text="@string/notes_"
                             android:textStyle="bold"
                             android:textSize="16sp"
                             android:layout_marginBottom="8dp"
@@ -190,7 +190,8 @@
                             android:id="@+id/etNotes"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
-                            android:hint="Enter session notes"
+                            android:autofillHints=""
+                            android:hint="@string/enter_session_notes"
                             android:gravity="top|start"
                             android:padding="4dp"
                             android:inputType="textMultiLine"
@@ -206,6 +207,7 @@
     <!-- Bottom buttons -->
     <LinearLayout
             android:id="@+id/buttonContainer"
+            style="?android:attr/buttonBarStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -216,7 +218,7 @@
 
         <Button
                 android:id="@+id/btnCancel"
-                android:text="Cancel"
+                android:text="@string/cancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -225,7 +227,8 @@
 
         <Button
                 android:id="@+id/btnEdit"
-                android:text="Save Changes"
+                style="?android:attr/buttonBarButtonStyle"
+                android:text="@string/save_changes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

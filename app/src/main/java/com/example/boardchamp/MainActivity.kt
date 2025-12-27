@@ -65,33 +65,33 @@ class MainActivity : AppCompatActivity() {
 
     private fun showAddGameDialog() {
         val builder = AlertDialog.Builder(this)
-        builder.setTitle("Add New Game")
+        builder.setTitle(R.string.add_new_game)
 
         // Creating an EditText to enter the game name
         val input = EditText(this)
-        input.hint = "Game name"
+        input.hint = getString(R.string.game_name_hint)
         input.isSingleLine = true
         input.filters = arrayOf(InputFilter.LengthFilter(42))
         builder.setView(input)
 
-        builder.setPositiveButton("Add") { _, _ ->
+        builder.setPositiveButton(R.string.add) { _, _ ->
             val gameName = input.text.toString().trim()
             if(gameName.isEmpty()){
-                Toast.makeText(this, "Please enter game name", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.please_enter_game_name, Toast.LENGTH_SHORT).show()
             }
             //If the game has same name but with different capitals, it will not add new game card
             else if(gameList.any {it.equals(gameName, ignoreCase = true) }) {
-                Toast.makeText(this, "This game card already exists", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.game_card_already_exists, Toast.LENGTH_SHORT).show()
             }
             else{
                 gameList.add(gameName)
                 saveGameList(gameList)
                 addNewGameCard(gameName)
-                Toast.makeText(this, "Game '$gameName' added", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.game_added, gameName), Toast.LENGTH_SHORT).show()
             }
         }
 
-        builder.setNegativeButton("Cancel") { dialog, _ ->
+        builder.setNegativeButton(R.string.cancel) { dialog, _ ->
             dialog.cancel()
         }
 
@@ -100,16 +100,16 @@ class MainActivity : AppCompatActivity() {
 
     private fun confirmDelete(cardView: View, gameName: String, index: Int) {
         AlertDialog.Builder(this)
-            .setTitle("Delete Confirmation")
-            .setMessage("Do you really want to remove \"$gameName\"?\nOnce removed, it will be lost permanently.")
-            .setPositiveButton("Yes") { _, _ ->
+            .setTitle(R.string.delete_confirmation)
+            .setMessage(getString(R.string.delete_confirmation_message, gameName))
+            .setPositiveButton(R.string.yes) { _, _ ->
                 // card deletion
                 staticLayout.removeView(cardView)
                 gameList.removeAt(index)
                 saveGameList(gameList)
-                Toast.makeText(this, "Game \"$gameName\" removed", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.game_removed, gameName), Toast.LENGTH_SHORT).show()
             }
-            .setNegativeButton("No", null)
+            .setNegativeButton(R.string.no, null)
             .show()
     }
 
@@ -131,9 +131,12 @@ class MainActivity : AppCompatActivity() {
 
         // Hold to display game management dialog
         cardView.setOnLongClickListener {
-            val options = arrayOf("Move Up", "Move Down", "Remove")
+            val options = arrayOf(
+                    getString(R.string.move_up),
+                    getString(R.string.move_down),
+                    getString(R.string.remove))
             AlertDialog.Builder(this)
-                .setTitle("Options for \"$gameName\"")
+                .setTitle(getString(R.string.options_for, gameName))
                 .setItems(options) { _, which ->
                     val index = staticLayout.indexOfChild(cardView)
                     when (which) {
@@ -185,7 +188,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "Error opening history: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.error_opening_history, e.message), Toast.LENGTH_SHORT).show()
         }
     }
 

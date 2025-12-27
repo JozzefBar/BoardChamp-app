@@ -6,7 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp"
-        tools:context=".HistoryActivity">
+        tools:context=".HistoryActivity"
+        android:background="?attr/colorSurface">
 
     <!-- Header with title and Import button -->
     <LinearLayout
@@ -25,22 +26,25 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Game History"
+                android:text="@string/game_history"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textAlignment="center"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:textColor="?attr/colorOnSurfaceVariant"/>
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnImportSession"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Import"
                 android:drawableStart="@android:drawable/ic_menu_upload"
-                android:drawablePadding="4dp"/>
+                android:contentDescription="@string/Import"
+                app:backgroundTint="@color/primary_color"
+                android:drawablePadding="4dp"
+                android:src="@android:drawable/stat_sys_upload"
+                app:fabSize="normal"
+                app:tint="#FFFFFF"/>
 
     </LinearLayout>
 
@@ -71,12 +75,12 @@
             <!-- Placeholder for empty history -->
             <TextView
                     android:id="@+id/tvNoHistory"
-                    android:text="No game sessions recorded yet.\nStart playing and your sessions will appear here!"
+                    android:text="@string/no_game_session"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
                     android:textStyle="italic"
-                    android:textColor="#888888"
+                    android:textColor="#666666"
                     android:padding="32dp"
                     />
 
@@ -86,7 +90,7 @@
     <!-- Back button -->
     <Button
             android:id="@+id/btnBack"
-            android:text="Back to Main Menu"
+            android:text="@string/back_to_main_menu"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

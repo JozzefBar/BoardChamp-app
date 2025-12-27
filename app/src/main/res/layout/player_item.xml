@@ -27,7 +27,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="Player name"
+                    android:autofillHints=""
+                    android:hint="@string/player_name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:background="@android:color/transparent"
                     android:maxLines="1"/>
@@ -38,7 +39,7 @@
                     android:layout_height="32dp"
                     android:src="@android:drawable/ic_menu_delete"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="Remove player"
+                    android:contentDescription="@string/remove_player"
                     android:tint="#FF6B6B"/>
         </LinearLayout>
 
@@ -46,6 +47,7 @@
         <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:baselineAligned="false"
                 android:orientation="horizontal">
 
             <LinearLayout
@@ -56,7 +58,7 @@
                     android:layout_marginEnd="8dp">
 
                 <TextView
-                        android:text="Score:"
+                        android:text="@string/score"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
@@ -66,7 +68,8 @@
                         android:id="@+id/etPlayerScore"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="0"
+                        android:autofillHints=""
+                        android:hint="@string/zero"
                         android:inputType="number"
                         android:textAlignment="center"
                         android:background="?attr/colorSurfaceVariant"
@@ -83,7 +86,7 @@
                     android:layout_marginStart="8dp">
 
                 <TextView
-                        android:text="Position:"
+                        android:text="@string/position"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="12sp"
@@ -93,7 +96,8 @@
                         android:id="@+id/etPlayerPosition"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="1st"
+                        android:autofillHints=""
+                        android:hint="@string/first"
                         android:inputType="number"
                         android:textAlignment="center"
                         android:background="?attr/colorSurfaceVariant"

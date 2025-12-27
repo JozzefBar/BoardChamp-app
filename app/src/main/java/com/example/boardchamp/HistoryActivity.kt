@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.activity.result.contract.ActivityResultContracts
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.SimpleDateFormat
@@ -23,7 +24,7 @@ class HistoryActivity : AppCompatActivity() {
     private lateinit var historyContainer: LinearLayout
     private lateinit var tvNoHistory: TextView
     private lateinit var btnBack: Button
-    private lateinit var btnImportSession: Button
+    private lateinit var btnImportSession: FloatingActionButton
 
     private val editSessionLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -43,7 +44,7 @@ class HistoryActivity : AppCompatActivity() {
             loadAndDisplayHistory()
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "Error loading history: ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.error_loading_history, e.message), Toast.LENGTH_LONG).show()
             finish()
         }
     }
@@ -86,7 +87,7 @@ class HistoryActivity : AppCompatActivity() {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "Error displaying history: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.error_displaying_history, e.message), Toast.LENGTH_SHORT).show()
             tvNoHistory.visibility = LinearLayout.VISIBLE
             historyContainer.visibility = LinearLayout.GONE
         }
@@ -134,9 +135,9 @@ class HistoryActivity : AppCompatActivity() {
 
             val dayDifference = session.endTime.get(Calendar.DAY_OF_YEAR) - session.startTime.get(Calendar.DAY_OF_YEAR)
             val timeRange = if (dayDifference > 0) {
-                "${formatTime(session.startTime)} - ${formatTime(session.endTime)} (+1 day)"
+                getString(R.string.time_range_plus_day, formatTime(session.startTime), formatTime(session.endTime))
             } else {
-                "${formatTime(session.startTime)} - ${formatTime(session.endTime)}"
+                getString(R.string.time_range, formatTime(session.startTime), formatTime(session.endTime))
             }
             tvTimeRange.text = timeRange
 
@@ -167,12 +168,12 @@ class HistoryActivity : AppCompatActivity() {
                 // Show confirmation if session is imported
                 if (session.isImported) {
                     AlertDialog.Builder(this)
-                        .setTitle("Edit Imported Session")
-                        .setMessage("This session was imported from someone else. If you edit it, your version will be different from theirs.\n\nAre you sure you want to edit?")
-                        .setPositiveButton("Yes, Edit") { _, _ ->
+                        .setTitle(R.string.edit_imported_session)
+                        .setMessage(R.string.edit_imported_message)
+                        .setPositiveButton(R.string.yes_edit) { _, _ ->
                             launchEditActivity(session)
                         }
-                        .setNegativeButton("Cancel", null)
+                        .setNegativeButton(R.string.cancel, null)
                         .show()
                 } else {
                     launchEditActivity(session)
@@ -299,12 +300,12 @@ class HistoryActivity : AppCompatActivity() {
 
     private fun confirmDelete(sessionId: Long) {
         AlertDialog.Builder(this)
-            .setTitle("Delete Confirmation")
-            .setMessage("Do you really want to remove this session?\nOnce removed, it will be lost permanently.")
-            .setPositiveButton("Yes") { _, _ ->
+            .setTitle(R.string.delete_session_confirmation)
+            .setMessage(R.string.delete_session_message)
+            .setPositiveButton(R.string.yes) { _, _ ->
                 deleteSession(sessionId)
             }
-            .setNegativeButton("No", null)
+            .setNegativeButton(R.string.no, null)
             .show()
     }
 
@@ -317,13 +318,13 @@ class HistoryActivity : AppCompatActivity() {
             if (sessions.size < initialSize) {
                 saveSessionsToHistory(sessions)
                 loadAndDisplayHistory()
-                Toast.makeText(this, "Session deleted", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.session_deleted, Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Session not found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.session_not_found, Toast.LENGTH_SHORT).show()
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "Error deleting session: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.error_deleting_session, e.message), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -412,7 +413,7 @@ class HistoryActivity : AppCompatActivity() {
             editor.apply()
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "Error saving sessions: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.error_saving_sessions, e.message), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -421,7 +422,7 @@ class HistoryActivity : AppCompatActivity() {
             val format = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
             format.format(calendar.time)
         } catch (e: Exception) {
-            "Invalid Date"
+            getString(R.string.invalid_date_error, e.message ?: "Unknown")
         }
     }
 
@@ -430,7 +431,7 @@ class HistoryActivity : AppCompatActivity() {
             val format = SimpleDateFormat("HH:mm", Locale.getDefault())
             format.format(calendar.time)
         } catch (e: Exception) {
-            "Invalid Time"
+            getString(R.string.invalid_time_error, e.message ?: "Unknown")
         }
     }
 
@@ -498,7 +499,7 @@ class HistoryActivity : AppCompatActivity() {
                 loadAndDisplayHistory() // UI update
             }
             else {
-                Toast.makeText(this, "Edited session not found in history", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.edited_session_not_found, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -529,10 +530,10 @@ class HistoryActivity : AppCompatActivity() {
             val clip = ClipData.newPlainText("Game Session", sessionJson.toString())
             clipboard.setPrimaryClip(clip)
 
-            Toast.makeText(this, "Session copied to clipboard! You can now share it.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.session_copied, Toast.LENGTH_LONG).show()
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "Error sharing session: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.error_sharing_session, e.message), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -541,13 +542,13 @@ class HistoryActivity : AppCompatActivity() {
             // Get clipboard content
             val clipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
             if (!clipboard.hasPrimaryClip()) {
-                Toast.makeText(this, "Clipboard is empty", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.clipboard_is_empty, Toast.LENGTH_SHORT).show()
                 return
             }
 
             val clipData = clipboard.primaryClip
             if (clipData == null || clipData.itemCount == 0) {
-                Toast.makeText(this, "No data in clipboard", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.no_data_in_clipboard, Toast.LENGTH_SHORT).show()
                 return
             }
 
@@ -560,12 +561,12 @@ class HistoryActivity : AppCompatActivity() {
             if (!sessionJson.has("gameName") || !sessionJson.has("gameDate") ||
                 !sessionJson.has("startTime") || !sessionJson.has("endTime") ||
                 !sessionJson.has("players")) {
-                Toast.makeText(this, "Invalid session format. Missing required fields.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.invalid_session_format, Toast.LENGTH_LONG).show()
                 return
             }
 
             // Extract session data
-            val gameName = sessionJson.optString("gameName", "Imported Game")
+            val gameName = sessionJson.getString("gameName")
             val gameDate = Calendar.getInstance().apply {
                 timeInMillis = sessionJson.getLong("gameDate")
             }
@@ -583,7 +584,7 @@ class HistoryActivity : AppCompatActivity() {
 
             // Validate that there is at least one player
             if (playersArray.length() == 0) {
-                Toast.makeText(this, "Invalid session: No players recorded. A session must have at least one player.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.invalid_session_no_players, Toast.LENGTH_LONG).show()
                 return
             }
 
@@ -591,7 +592,7 @@ class HistoryActivity : AppCompatActivity() {
                 val playerJson = playersArray.getJSONObject(i)
 
                 if (!playerJson.has("name") || !playerJson.has("score") || !playerJson.has("position")) {
-                    Toast.makeText(this, "Invalid player data in session.", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, R.string.invalid_player_data, Toast.LENGTH_LONG).show()
                     return
                 }
 
@@ -626,19 +627,19 @@ class HistoryActivity : AppCompatActivity() {
             if (duplicate != null) {
                 // Show confirmation dialog for duplicate
                 AlertDialog.Builder(this)
-                    .setTitle("Duplicate Session")
-                    .setMessage("A session with the same game name, date, and time already exists.\n\nDo you want to import it anyway?")
-                    .setPositiveButton("Yes, Import") { _, _ ->
+                    .setTitle(R.string.duplicate_session)
+                    .setMessage(R.string.duplicate_session_message)
+                    .setPositiveButton(R.string.yes_import) { _, _ ->
                         sessions.add(newSession)
                         saveSessionsToHistory(sessions)
                         loadAndDisplayHistory()
-                        Toast.makeText(this, "Session imported successfully!", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, R.string.session_imported, Toast.LENGTH_LONG).show()
 
                         historyContainer.postDelayed({
                             scrollToSession(newSession.id)
                         }, 300)
                     }
-                    .setNegativeButton("Cancel", null)
+                    .setNegativeButton(R.string.cancel, null)
                     .show()
                 return
             }
@@ -650,7 +651,7 @@ class HistoryActivity : AppCompatActivity() {
             // Refresh display
             loadAndDisplayHistory()
 
-            Toast.makeText(this, "Session imported successfully!", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.session_imported, Toast.LENGTH_LONG).show()
 
             // Scroll to imported session after a short delay
             historyContainer.postDelayed({
@@ -660,7 +661,7 @@ class HistoryActivity : AppCompatActivity() {
 
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "Error importing session. Make sure you copied a valid session.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.error_importing_session, Toast.LENGTH_LONG).show()
         }
     }
 

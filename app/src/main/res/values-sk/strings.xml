@@ -1,0 +1,129 @@
+<resources>
+
+    <string name="app_name">BoardChamp</string>
+
+    <!-- MainActivity.kt -->
+    <string name="add_game">Pridať hru</string>
+    <string name="add_new_game">Pridať novú hru</string>
+    <string name="game_name_hint">Názov hry</string>
+    <string name="add">Pridať</string>
+    <string name="please_enter_game_name">Prosím zadajte názov hry</string>
+    <string name="game_card_already_exists">Táto karta hry už existuje</string>
+    <string name="game_added">Hra \'%1$s\' pridaná</string>
+    <string name="delete_confirmation">Potvrdenie vymazania</string>
+    <string name="delete_confirmation_message">Naozaj chcete odstrániť \"%1$s\"?\nPo odstránení bude navždy stratená.</string>
+    <string name="game_removed">Hra \"%1$s\" odstránená</string>
+    <string name="options_for">Možnosti pre \"%1$s\"</string>
+    <string name="move_up">Presunúť hore</string>
+    <string name="move_down">Presunúť dole</string>
+    <string name="remove">Odstrániť</string>
+    <string name="error_opening_history">Chyba pri otváraní histórie: %1$s</string>
+
+    <!-- HistoryActivity.kt -->
+    <string name="error_loading_history">Chyba pri načítavaní histórie: %1$s</string>
+    <string name="error_displaying_history">Chyba pri zobrazovaní histórie: %1$s</string>
+    <string name="time_range_plus_day">%1$s - %2$s (+1 deň)</string>
+    <string name="time_range">%1$s - %2$s</string>
+    <string name="duration_format">Trvanie: %1$dh %2$dm</string>
+    <string name="notes">Poznámky: %1$s</string>
+    <string name="edit_imported_session">Upraviť importovanú partiu</string>
+    <string name="edit_imported_message">Táto partia bola importovaná od niekoho iného. Ak ju upravíte, vaša verzia bude odlišná od ich verzie.\nNaozaj chcete upraviť?</string>
+    <string name="yes_edit">Áno, upraviť</string>
+    <string name="no_players">Žiadni hráči neboli zaznamenaní</string>
+    <string name="points_format">%1$d bodov</string>
+    <string name="delete_session_confirmation">Vymazať partiu</string>
+    <string name="delete_session_message">Naozaj chcete vymazať túto partiu?</string>
+    <string name="session_deleted">Partia vymazaná</string>
+    <string name="session_not_found">Partia nenájdená</string>
+    <string name="error_deleting_session">Chyba pri mazaní partie: %1$s</string>
+    <string name="error_saving_sessions">Chyba pri ukladaní partií: %1$s</string>
+    <string name="invalid_date_error">Neplatný dátum: %1$s</string>
+    <string name="invalid_time_error">Neplatný čas: %1$s</string>
+    <string name="edited_session_not_found">Upravená partia sa nenašla v histórii</string>
+    <string name="session_copied">Partia skopírovaná do schránky! Teraz ju môžete zdieľať.</string>
+    <string name="error_sharing_session">Chyba pri zdieľaní partie: %1$s</string>
+    <string name="clipboard_is_empty">Schránka je prázdna</string>
+    <string name="no_data_in_clipboard">Žiadne dáta v schránke</string>
+    <string name="invalid_session_format">Neplatný formát partie. Chýbajú povinné polia.</string>
+    <string name="invalid_session_no_players">Neplatná partia: Žiadni hráči neboli zaznamenaní. Partia musí mať aspoň jedného hráča.</string>
+    <string name="invalid_player_data">Neplatné dáta hráča v partii.</string>
+    <string name="duplicate_session">Duplicitná partia</string>
+    <string name="duplicate_session_message">Partia s rovnakým názvom hry, dátumom a časom už existuje. Chcete ju aj tak importovať?</string>
+    <string name="yes_import">Áno, importovať</string>
+    <string name="session_imported">Partia úspešne importovaná!</string>
+    <string name="error_importing_session">Chyba pri importovaní partie. Uistite sa, že ste skopírovali platnú partiu.</string>
+
+    <!-- SessionActivity.kt -->
+    <string name="session_title">Nová herná partia: %1$s</string>
+    <string name="please_select_date_first">Najskôr vyberte dátum</string>
+    <string name="end_time_plus_day">%1$s (+1 deň)</string>
+    <string name="calculation_error">Chyba výpočtu</string>
+    <string name="player_hint">Hráč %1$d</string>
+    <string name="save_confirmation">Potvrdenie uloženia</string>
+    <string name="save_confirmation_message">Naozaj chcete uložiť s aktuálnymi dátami?\nNiektoré dáta, ako počet hráčov alebo dátum, nebude možné v budúcnosti zmeniť</string>
+    <string name="please_select_date">Prosím vyberte dátum</string>
+    <string name="please_set_start_end_time">Prosím nastavte čas začiatku a konca</string>
+    <string name="please_add_at_least_one_player">Prosím pridajte aspoň jedného hráča</string>
+    <string name="please_enter_player_name">Prosím zadajte meno pre všetkých hráčov</string>
+    <string name="player_name_too_long">Meno pre %1$d. hráča je príliš dlhé.</string>
+    <string name="game_label">Hra: %1$s</string>
+    <string name="date_label">Dátum: %1$s</string>
+    <string name="time_label">Čas: %1$s</string>
+    <string name="day">deň</string>
+    <string name="players_label">Hráči: %1$d</string>
+    <string name="session_saved_with_info">Herná partia uložená do histórie!\n%1$s</string>
+
+    <!-- EditSessionActivity.kt -->
+    <string name="date_cannot_be_changed">Dátum sa nedá zmeniť</string>
+    <string name="edit_game">Upraviť partiu: %1$s</string>
+
+    <!-- Others used between more files + XML files -->
+    <string name="unknown_game">Neznáma hra</string>
+    <string name="duration">Trvanie: %1$dh %2$dm</string>
+    <string name="duration_crosses_midnight">Trvanie: %1$dh %2$dm (cez polnoc)</string>
+    <string name="ordinal_st">.</string>
+    <string name="ordinal_nd">.</string>
+    <string name="ordinal_rd">.</string>
+    <string name="ordinal_th">.</string>
+    <string name="position_greater_than_total">Pozícia hráča %1$s je väčšia ako celkový počet hráčov.</string>
+    <string name="position_is_zero">Pozícia hráča %1$s je nula.</string>
+    <string name="yes">Áno</string>
+    <string name="cancel">Zrušiť</string>
+    <string name="no">Nie</string>
+    <string name="choose_your_game">Vyberte si hru!</string>
+    <string name="plus_symbol">+</string>
+    <string name="history_button">História</string>
+    <string name="theme_switch">Prepnúť tému</string>
+    <string name="game_date_duration">Dátum hry &amp; Trvanie</string>
+    <string name="date_colon">Dátum:</string>
+    <string name="select_date">Vybrať dátum</string>
+    <string name="start_time_colon">Čas začiatku:</string>
+    <string name="select_time">Vybrať čas</string>
+    <string name="end_time_colon">Čas konca:</string>
+    <string name="duration_not_calculated">Trvanie: Nevypočítané</string>
+    <string name="players">Hráči</string>
+    <string name="add_player">+ Pridať hráča</string>
+    <string name="no_players_added">Zatiaľ nie sú pridaní žiadni hráči. Kliknite na \'Pridať hráča\' pre začiatok.</string>
+    <string name="session_notes">Poznámky k partii</string>
+    <string name="notes_hint">Pridajte poznámky o tejto hernej partii…</string>
+    <string name="notes_">Poznámky</string>
+    <string name="enter_session_notes">Zadajte poznámky k partii</string>
+    <string name="save_session">Uložiť partiu</string>
+    <string name="save_changes">Uložiť zmeny</string>
+    <string name="duration_">Trvanie: —</string>
+    <string name="game_date_dd">dd.MM.yyyy</string>
+    <string name="game_history">História hier</string>
+    <string name="Import">Importovať</string>
+    <string name="no_game_session">Zatiaľ neboli zaznamenané žiadne herné partie.\nZačnite hrať a vaše partie sa tu objavia!</string>
+    <string name="back_to_main_menu">Späť do hlavného menu</string>
+    <string name="date_header">01.01.2025</string>
+    <string name="new_game">Nová hra</string>
+    <string name="play_button">Nová hra</string>
+    <string name="player_name">Meno hráča</string>
+    <string name="remove_player">Odstrániť hráča</string>
+    <string name="score">Skóre:</string>
+    <string name="zero">0</string>
+    <string name="position">Pozícia:</string>
+    <string name="first">1.:</string>
+
+</resources>

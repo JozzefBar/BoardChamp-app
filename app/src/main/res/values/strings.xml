@@ -1,15 +1,128 @@
 <resources>
     <string name="app_name">BoardChamp</string>
 
-    <!-- Strings with arguments -->
+    <!-- MainActivity.kt -->
+    <string name="add_game">Add Game</string>
+    <string name="add_new_game">Add New Game</string>
+    <string name="game_name_hint">Game name</string>
+    <string name="add">Add</string>
+    <string name="please_enter_game_name">Please enter game name</string>
+    <string name="game_card_already_exists">This game card already exists</string>
+    <string name="game_added">Game \'%1$s\' added</string>
+    <string name="delete_confirmation">Delete Confirmation</string>
+    <string name="delete_confirmation_message">Do you really want to remove \"%1$s\"?\nOnce removed, it will be lost permanently.</string>
+    <string name="game_removed">Game \"%1$s\" removed</string>
+    <string name="options_for">Options for \"%1$s\"</string>
+    <string name="move_up">Move Up</string>
+    <string name="move_down">Move Down</string>
+    <string name="remove">Remove</string>
+    <string name="error_opening_history">Error opening history: %1$s</string>
+
+    <!-- HistoryActivity.kt -->
+    <string name="error_loading_history">Error loading history: %1$s</string>
+    <string name="error_displaying_history">Error displaying history: %1$s</string>
+    <string name="time_range_plus_day">%1$s - %2$s (+1 day)</string>
+    <string name="time_range">%1$s - %2$s</string>
     <string name="duration_format">Duration: %1$dh %2$dm</string>
     <string name="notes">Notes: %1$s</string>
-    <string name="points_format">%1$d pts</string>
-    <string name="end_time_plus_day">%1$s (+1 day)</string>
-    <string name="game_name">%1$s - New Session</string>
-    <string name="edit_game">%1$s - Edit Session</string>
-
-    <!-- Strings without arguments -->
+    <string name="edit_imported_session">Edit Imported Session</string>
+    <string name="edit_imported_message">This session was imported from someone else. If you edit it, your version will be different from theirs.\n\nAre you sure you want to edit?</string>
+    <string name="yes_edit">Yes, Edit</string>
     <string name="no_players">No players recorded</string>
-    <string name="calculation_error">Duration: Invalid (calculation error)</string>
+    <string name="points_format">%1$d pts</string>
+    <string name="delete_session_confirmation">Delete Session</string>
+    <string name="delete_session_message">Are you sure you want to delete this session?</string>
+    <string name="session_deleted">Session deleted</string>
+    <string name="session_not_found">Session not found</string>
+    <string name="error_deleting_session">Error deleting session: %1$s</string>
+    <string name="error_saving_sessions">Error saving sessions: %1$s</string>
+    <string name="invalid_date_error">Invalid Date: %1$s</string>
+    <string name="invalid_time_error">Invalid Time: %1$s</string>
+    <string name="edited_session_not_found">Edited session not found in history</string>
+    <string name="session_copied">Session copied to clipboard! You can now share it.</string>
+    <string name="error_sharing_session">Error sharing session: %1$s</string>
+    <string name="clipboard_is_empty">Clipboard is empty</string>
+    <string name="no_data_in_clipboard">No data in clipboard</string>
+    <string name="invalid_session_format">Invalid session format. Missing required fields.</string>
+    <string name="invalid_session_no_players">Invalid session: No players recorded. A session must have at least one player.</string>
+    <string name="invalid_player_data">Invalid player data in session.</string>
+    <string name="duplicate_session">Duplicate Session</string>
+    <string name="duplicate_session_message">A session with the same game name, date, and time already exists.\n\nDo you want to import it anyway?</string>
+    <string name="yes_import">Yes, Import</string>
+    <string name="session_imported">Session imported successfully!</string>
+    <string name="error_importing_session">Error importing session. Make sure you copied a valid session.</string>
+
+    <!-- SessionActivity.kt -->
+    <string name="session_title">New Game Session: %1$s</string>
+    <string name="please_select_date_first">Please select a date first</string>
+    <string name="end_time_plus_day">%1$s (+1 day)</string>
+    <string name="calculation_error">Calculation error</string>
+    <string name="player_hint">Player %1$d</string>
+    <string name="save_confirmation">Save Confirmation</string>
+    <string name="save_confirmation_message">Do you really want to save with the current data?\nSome data such as number of players or date cannot be changed in the future</string>
+    <string name="please_select_date">Please select a date</string>
+    <string name="please_set_start_end_time">Please set start and end time</string>
+    <string name="please_add_at_least_one_player">Please add at least one player</string>
+    <string name="please_enter_player_name">Please enter name for all players</string>
+    <string name="player_name_too_long">The name for the %1$d. player is too long.</string>
+    <string name="game_label">Game: %1$s</string>
+    <string name="date_label">Date: %1$s</string>
+    <string name="time_label">Time: %1$s</string>
+    <string name="day">day</string>
+    <string name="players_label">Players: %1$d</string>
+    <string name="session_saved_with_info">Game session saved to history!\n%1$s</string>
+
+    <!-- EditSessionActivity.kt -->
+    <string name="date_cannot_be_changed">Date cannot be changed</string>
+    <string name="edit_game">Edit Session: %1$s</string>
+
+    <!-- Others used between more files + XML files -->
+    <string name="unknown_game">Unknown Game</string>
+    <string name="duration">Duration: %1$dh %2$dm</string>
+    <string name="duration_crosses_midnight">Duration: %1$dh %2$dm (crosses midnight)</string>
+    <string name="ordinal_st">st</string>
+    <string name="ordinal_nd">nd</string>
+    <string name="ordinal_rd">rd</string>
+    <string name="ordinal_th">th</string>
+    <string name="position_greater_than_total">The %1$s\'s position is greater than the total number of players.</string>
+    <string name="position_is_zero">The %1$s\'s position is zero.</string>
+    <string name="yes">Yes</string>
+    <string name="cancel">Cancel</string>
+    <string name="no">No</string>
+    <string name="choose_your_game">Choose your game!</string>
+    <string name="plus_symbol">+</string>
+    <string name="history_button">History</string>
+    <string name="theme_switch">Theme switch</string>
+    <string name="game_date_duration">Game Date &amp; Duration</string>
+    <string name="date_colon">Date:</string>
+    <string name="select_date">Select Date</string>
+    <string name="start_time_colon">Start Time:</string>
+    <string name="select_time">Select Time</string>
+    <string name="end_time_colon">End Time:</string>
+    <string name="duration_not_calculated">Duration: Not calculated</string>
+    <string name="players">Players</string>
+    <string name="add_player">+ Add Player</string>
+    <string name="no_players_added">No players added yet. Click \'Add Player\' to start.</string>
+    <string name="session_notes">Session Notes</string>
+    <string name="notes_hint">Add any notes about this game session…</string>
+    <string name="notes_">Notes</string>
+    <string name="enter_session_notes">Enter session notes</string>
+    <string name="save_session">Save Session</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="duration_">Duration: —</string>
+    <string name="game_date_dd">dd.MM.yyyy</string>
+    <string name="game_history">Game History</string>
+    <string name="Import">Import</string>
+    <string name="no_game_session">No game sessions recorded yet.\nStart playing and your sessions will appear here!</string>
+    <string name="back_to_main_menu">Back to Main Menu</string>
+    <string name="date_header">01.01.2025</string>
+    <string name="new_game">New game</string>
+    <string name="play_button">New game</string>
+    <string name="player_name">Player name</string>
+    <string name="remove_player">Remove player</string>
+    <string name="score">Score:</string>
+    <string name="zero">0</string>
+    <string name="position">Position:</string>
+    <string name="first">1st:</string>
+
 </resources>

@@ -35,7 +35,7 @@ class EditSessionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_edit_session)
 
         // Getting the game name from an Intent
-        gameName = intent.getStringExtra("game_name") ?: "Unknown Game"
+        gameName = intent.getStringExtra("game_name") ?: getString(R.string.unknown_game)
 
         initializeViews()
         setupClickListeners()
@@ -58,7 +58,7 @@ class EditSessionActivity : AppCompatActivity() {
     private fun setupClickListeners() {
         tvGameDate.setOnClickListener {
             // Date editing is completely disabled
-            Toast.makeText(this, "Date cannot be changed", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.date_cannot_be_changed, Toast.LENGTH_SHORT).show()
         }
 
         btnStartTime.setOnClickListener {
@@ -184,9 +184,9 @@ class EditSessionActivity : AppCompatActivity() {
                 // If the end time is for the next day, we add the info to the duration
                 val dayDifference = endTime!!.get(Calendar.DAY_OF_YEAR) - startTime!!.get(Calendar.DAY_OF_YEAR)
                 val durationText = if (dayDifference > 0) {
-                    "Duration: ${hours}h ${minutes}m (crosses midnight)"
+                    getString(R.string.duration_crosses_midnight, hours, minutes)
                 } else {
-                    "Duration: ${hours}h ${minutes}m"
+                    getString(R.string.duration, hours, minutes)
                 }
 
                 tvDuration.text = durationText
@@ -257,12 +257,12 @@ class EditSessionActivity : AppCompatActivity() {
     }
 
     private fun getOrdinalSuffix(number: Int): String {
-        if (number in 11..15) return "th"
+        if (number in 11..15) return getString(R.string.ordinal_th)
         return when (number % 10) {
-            1 -> "st"
-            2 -> "nd"
-            3 -> "rd"
-            else -> "th"
+            1 -> getString(R.string.ordinal_st)
+            2 -> getString(R.string.ordinal_nd)
+            3 -> getString(R.string.ordinal_rd)
+            else -> getString(R.string.ordinal_th)
         }
     }
 
@@ -281,12 +281,12 @@ class EditSessionActivity : AppCompatActivity() {
             val position = etPlayerPosition.text.toString().toIntOrNull() ?: (i + 1)
 
             if (position > playersContainer.childCount) {
-                Toast.makeText(this, "The $name's position is greater than the total number of players.", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.position_greater_than_total, name), Toast.LENGTH_LONG).show()
                 return null
             }
 
             if(position == 0){
-                Toast.makeText(this, "The $name's position is zero.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.position_is_zero, name), Toast.LENGTH_SHORT).show()
                 return null
             }
 

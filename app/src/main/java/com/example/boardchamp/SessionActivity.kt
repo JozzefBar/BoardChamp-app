@@ -37,7 +37,7 @@ class SessionActivity : AppCompatActivity() {
         setContentView(R.layout.session_activity)
 
         // Getting the game name from an Intent
-        gameName = intent.getStringExtra("GAME_NAME") ?: "Unknown Game"
+        gameName = intent.getStringExtra("GAME_NAME") ?: getString(R.string.unknown_game)
 
         initializeViews()
         setupClickListeners()
@@ -68,7 +68,7 @@ class SessionActivity : AppCompatActivity() {
     }
 
     private fun updateGameTitle() {
-        gameTitle.text = getString(R.string.game_name, gameName)
+        gameTitle.text = getString(R.string.session_title, gameName)
     }
 
     private fun showDatePickerDialog() {
@@ -95,7 +95,7 @@ class SessionActivity : AppCompatActivity() {
 
     private fun showTimePickerDialog(isStartTime: Boolean) {
         if (gameDate == null) {
-            Toast.makeText(this, "Please select a date first", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.please_select_date_first, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -210,9 +210,9 @@ class SessionActivity : AppCompatActivity() {
                 // If the end time is for the next day, we add the info to the duration
                 val dayDifference = endTime!!.get(Calendar.DAY_OF_YEAR) - startTime!!.get(Calendar.DAY_OF_YEAR)
                 val durationText = if (dayDifference > 0) {
-                    "Duration: ${hours}h ${minutes}m (crosses midnight)"
+                    getString(R.string.duration_crosses_midnight, hours, minutes)
                 } else {
-                    "Duration: ${hours}h ${minutes}m"
+                    getString(R.string.duration, hours, minutes)
                 }
 
                 tvDuration.text = durationText
@@ -222,12 +222,12 @@ class SessionActivity : AppCompatActivity() {
     }
 
     private fun getOrdinalSuffix(number: Int): String {
-        if (number in 11..15) return "th"
+        if (number in 11..15) return getString(R.string.ordinal_th)
         return when (number % 10) {
-            1 -> "st"
-            2 -> "nd"
-            3 -> "rd"
-            else -> "th"
+            1 -> getString(R.string.ordinal_st)
+            2 -> getString(R.string.ordinal_nd)
+            3 -> getString(R.string.ordinal_rd)
+            else -> getString(R.string.ordinal_th)
         }
     }
 
@@ -246,7 +246,7 @@ class SessionActivity : AppCompatActivity() {
 
         //Now count only real players (without placeholder TextView)
         val actualPlayerCount = getActualPlayerCount()
-        etPlayerName.hint = "Player $actualPlayerCount"
+        etPlayerName.hint = getString(R.string.player_hint, actualPlayerCount)
         etPlayerPosition.hint = "$actualPlayerCount${getOrdinalSuffix(actualPlayerCount)}"
 
         //Player removal settings
@@ -271,7 +271,7 @@ class SessionActivity : AppCompatActivity() {
             val etPlayerPosition = child.findViewById<EditText>(R.id.etPlayerPosition)
 
             if (etPlayerName.text.toString().trim().isEmpty()) {
-                etPlayerName.hint = "Player $playerNumber"
+                etPlayerName.hint = getString(R.string.player_hint, playerNumber)
             }
             if (etPlayerPosition.text.toString().trim().isEmpty()) {
                 etPlayerPosition.hint = "${playerNumber}${getOrdinalSuffix(playerNumber)}"
@@ -304,29 +304,29 @@ class SessionActivity : AppCompatActivity() {
 
     private fun confirmSave() {
         AlertDialog.Builder(this)
-            .setTitle("Save Confirmation")
-            .setMessage("Do you really want to save with the current data? \nSome data such as number of players or date cannot be changed in the future")
-            .setPositiveButton("Yes") { _, _ ->
+            .setTitle(R.string.save_confirmation)
+            .setMessage(R.string.save_confirmation_message)
+            .setPositiveButton(R.string.yes) { _, _ ->
                 saveGameSession()
             }
-            .setNegativeButton("No", null)
+            .setNegativeButton(R.string.no, null)
             .show()
     }
 
     private fun saveGameSession() {
         // Data validation
         if (gameDate == null) {
-            Toast.makeText(this, "Please select a date", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.please_select_date, Toast.LENGTH_SHORT).show()
             return
         }
 
         if (startTime == null || endTime == null) {
-            Toast.makeText(this, "Please set start and end time", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.please_set_start_end_time, Toast.LENGTH_SHORT).show()
             return
         }
 
         if (getActualPlayerCount() == 0) {
-            Toast.makeText(this, "Please add at least one player", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.please_add_at_least_one_player, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -343,23 +343,23 @@ class SessionActivity : AppCompatActivity() {
             val positionText = playerView.findViewById<EditText>(R.id.etPlayerPosition).text.toString()
 
             if (name.isEmpty()) {
-                Toast.makeText(this, "Please enter name for all players", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.please_enter_player_name, Toast.LENGTH_SHORT).show()
                 return
             }
 
             if (name.count() > 20) {
-                Toast.makeText(this, "The name for the ${i}. player is too long.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.player_name_too_long, i), Toast.LENGTH_SHORT).show()
                 return
             }
 
             val score = scoreText.toIntOrNull() ?: 0
             val position  = positionText.toIntOrNull() ?: (i)
             if(position >= playersContainer.childCount){
-                Toast.makeText(this, "The $name's position is greater than the total number of players.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.position_greater_than_total, name), Toast.LENGTH_SHORT).show()
                 return
             }
             if(position == 0){
-                Toast.makeText(this, "The $name's position is zero.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.position_is_zero, name), Toast.LENGTH_SHORT).show()
                 return
             }
 
@@ -383,22 +383,22 @@ class SessionActivity : AppCompatActivity() {
 
         // View success message with details
         val sessionInfo = StringBuilder().apply {
-            appendLine("Game: ${session.gameName}")
-            appendLine("Date: ${formatDate(session.gameDate)}")
-            append("Time: ${formatTime(session.startTime)}")
+            appendLine(getString(R.string.game_label, session.gameName))
+            appendLine(getString(R.string.date_label, formatDate(session.gameDate)))
+            append(getString(R.string.time_label, formatTime(session.startTime)))
 
             //If the end time is for the next day, we will show it.
             val dayDifference = session.endTime.get(Calendar.DAY_OF_YEAR) - session.startTime.get(Calendar.DAY_OF_YEAR)
             if (dayDifference > 0) {
-                appendLine(" - ${formatTime(session.endTime)} (+1 day)")
+                appendLine(" - ${formatTime(session.endTime)} (+1 ${getString(R.string.day)})")
             } else {
                 appendLine(" - ${formatTime(session.endTime)}")
             }
 
-            append("Players: ${session.players.size}")
+            append(getString(R.string.players_label, session.players.size))
         }.toString()
 
-        Toast.makeText(this, "Game session saved to history!\n$sessionInfo", Toast.LENGTH_LONG).show()
+        Toast.makeText(this, getString(R.string.session_saved_with_info, sessionInfo), Toast.LENGTH_LONG).show()
         finish()
     }
 
