@@ -104,7 +104,7 @@ _All activities - light theme_
 
 ## 📱 Download on your android
 You can download the latest version of BoardChamp APK here:  
-[Download BoardChamp.apk](https://github.com/JozzefBar/BoardChamp-app/releases/download/v1.2/app-release.apk)
+[Download BoardChamp.apk](https://github.com/JozzefBar/BoardChamp-app/releases/download/v1.3/app-release.apk)
 
 ---
 
