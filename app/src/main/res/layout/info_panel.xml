@@ -13,36 +13,55 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp"
+            android:padding="4dp"
             android:gravity="center_vertical">
 
         <!-- Expand/Collapse button -->
         <ImageButton
                 android:id="@+id/btnToggleInfo"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@android:drawable/ic_menu_info_details"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/info"
                 android:tint="?attr/colorPrimary"/>
 
-        <!-- Text (expandable) -->
-        <TextView
-                android:id="@+id/tvInfoText"
+        <LinearLayout
+                android:orientation="vertical"
+                android:id="@+id/expandableContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/check_github_updates"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                android:textColor="?attr/colorOnSurface"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:visibility="gone"/>
+                android:visibility="gone">
+
+            <!-- Text (expandable) -->
+            <TextView
+                    android:id="@+id/tvInfoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/check_github_updates"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="?attr/colorOnSurface"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"/>
+
+            <!-- Version info -->
+            <TextView
+                    android:id="@+id/tvVersion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="@string/current_version"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textColor="@color/text_secondary"/>
+
+        </LinearLayout>
 
         <!-- GitHub icon button -->
         <ImageButton
                 android:id="@+id/btnGitHubSmall"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/ic_github"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/open_github"

@@ -11,7 +11,7 @@
     <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="?attr/colorOutline"
+            android:background="@color/text_secondary"
             android:layout_marginBottom="8dp"/>
 
     <!-- Date header -->

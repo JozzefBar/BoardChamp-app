@@ -137,5 +137,7 @@
     <string name="info">Info</string>
     <string name="check_github_updates">Check my GitHub for updates!</string>
     <string name="error_opening_github">Could not open GitHub %1$s</string>
+    <string name="current_version">Current version: %1$s</string>
+    <string name="version_unknown">Unknown</string>
 
 </resources>

@@ -138,5 +138,7 @@
     <string name="info">Info</string>
     <string name="check_github_updates">Pozri môj GitHub pre aktualizácie!</string>
     <string name="error_opening_github">Nepodarilo sa otvoriť GitHub %1$s</string>
+    <string name="current_version">Aktuálna verzia: %1$s</string>
+    <string name="version_unknown">Neznáma</string>
 
 </resources>

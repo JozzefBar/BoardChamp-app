@@ -26,9 +26,11 @@ class MainActivity : AppCompatActivity() {
     private lateinit var themeSwitcherButton: FloatingActionButton
     private lateinit var staticLayout: LinearLayout
 
-    // Info card
+    // Info panel
     private lateinit var infoPanel: View
     private lateinit var btnToggleInfo: ImageButton
+    private lateinit var expandableContent: LinearLayout
+    private lateinit var tvVersion: TextView
     private lateinit var tvInfoText: TextView
     private lateinit var btnGitHubSmall: ImageButton
     private var isInfoExpanded = false
@@ -50,6 +52,8 @@ class MainActivity : AppCompatActivity() {
         // Info panel initialization
         infoPanel = findViewById(R.id.infoPanel)
         btnToggleInfo = infoPanel.findViewById(R.id.btnToggleInfo)
+        expandableContent = infoPanel.findViewById(R.id.expandableContent)
+        tvVersion = infoPanel.findViewById(R.id.tvVersion)
         tvInfoText = infoPanel.findViewById(R.id.tvInfoText)
         btnGitHubSmall = infoPanel.findViewById(R.id.btnGitHubSmall)
         setupInfoPanel()
@@ -81,6 +85,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupInfoPanel() {
+        val versionName = getAppVersion()
+        tvVersion.text = getString(R.string.current_version, versionName)
+
         btnToggleInfo.setOnClickListener {
             toggleInfoPanel()
         }
@@ -90,16 +97,25 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun getAppVersion(): String {
+        return try {
+            val pInfo = packageManager.getPackageInfo(packageName, 0)
+            pInfo.versionName ?: getString(R.string.version_unknown)
+        } catch (_: Exception){
+            getString(R.string.version_unknown)
+        }
+    }
+
     private fun toggleInfoPanel() {
         isInfoExpanded = !isInfoExpanded
 
         if (isInfoExpanded) {
             // Expand - show text and GitHub button
-            tvInfoText.visibility = View.VISIBLE
+            expandableContent.visibility = View.VISIBLE
             btnGitHubSmall.visibility = View.VISIBLE
         } else {
             // Collapse - hide text and GitHub button
-            tvInfoText.visibility = View.GONE
+            expandableContent.visibility = View.GONE
             btnGitHubSmall.visibility = View.GONE
         }
     }

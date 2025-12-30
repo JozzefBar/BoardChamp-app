@@ -43,19 +43,19 @@ The app contains four main screens (Activities):
 _All activities - dark theme_
 
 <p align="left">
-  	<img src="screenshots/preV1.2/MainScreen%20-%20dark.png" alt="Main Activity - dark theme" width="250"/>
-	<img src="screenshots/preV1.2/SessionScreen%20-%20dark.png" alt="Session Activity - dark theme" width="250"/>
-	<img src="screenshots/preV1.2/HistoryScreen%20-%20dark.png" alt="History Activity - dark theme" width="250"/>
-	<img src="screenshots/preV1.2/EditScreen%20-%20dark.png" alt="Edit Activity - dark theme" width="250"/>
+  	<img src="screenshots/V1.3/MainScreen%20-%20dark.png" alt="Main Activity - dark theme" width="250"/>
+	<img src="screenshots/V1.3/SessionScreen%20-%20dark.png" alt="Session Activity - dark theme" width="250"/>
+	<img src="screenshots/V1.3/HistoryScreen%20-%20dark.png" alt="History Activity - dark theme" width="250"/>
+	<img src="screenshots/V1.3/EditScreen%20-%20dark.png" alt="Edit Activity - dark theme" width="250"/>
 </p>
 
 _All activities - light theme_
 
 <p align="left">
-  <img src="screenshots/preV1.2/MainScreen%20-%20light.png" alt="Main Activity - light theme" width="250"/>
-  <img src="screenshots/preV1.2/SessionScreen%20-%20light.png" alt="Session Activity - light theme" width="250"/>
-	<img src="screenshots/preV1.2/HistoryScreen%20-%20light.png" alt="History Activity - light theme" width="250"/>
-	<img src="screenshots/preV1.2/EditScreen%20-%20light.png" alt="Edit Activity - light theme" width="250"/>
+  <img src="screenshots/V1.3/MainScreen%20-%20light.png" alt="Main Activity - light theme" width="250"/>
+  <img src="screenshots/V1.3/SessionScreen%20-%20light.png" alt="Session Activity - light theme" width="250"/>
+	<img src="screenshots/V1.3/HistoryScreen%20-%20light.png" alt="History Activity - light theme" width="250"/>
+	<img src="screenshots/V1.3/EditScreen%20-%20light.png" alt="Edit Activity - light theme" width="250"/>
 </p>
 
 ---
@@ -84,7 +84,7 @@ _All activities - light theme_
 
 
 ### Edit Activity
-- Edit existing records - time, note and player's score and position.
+- Edit existing records - time, note, player's score and position.
 
 ---
 
@@ -100,7 +100,7 @@ _All activities - light theme_
 - This app remains **100% local** - no cloud storage or accounts needed
 - Your data stays private on your device
 - Sessions are shared manually through your preferred messaging apps
--  ~~**SK/EN** translations are available~~ (VERSION NOT PUBLISHED YET)
+-  **SK/EN** translations are available
 
 ## 📱 Download on your android
 You can download the latest version of BoardChamp APK here:  
@@ -130,7 +130,7 @@ You can download the latest version of BoardChamp APK here:
 - [x] In session editing there is no validation for player's position.
 - [x] Fix deprecated code
 - [x] Export/Import added
-- [ ] SK Translation
+- [x] SK/EN Translation
 
 ---
 
