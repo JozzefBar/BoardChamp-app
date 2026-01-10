@@ -3,9 +3,7 @@
 
 **BoardChamp** is a mobile application written in Kotlin designed to store and manage your statistics of board game results. The app was created as a personal project to learn the basics of Android app development.
 
-![Banner](app/src/main/res/mipmap-xhdpi/ic_banner.png)
-
-**really detailed banner lol 🎉*
+<img src="app/src/main/res/play_store_512.png" alt="Icon" width="250"/>
 
 ---
 
@@ -104,7 +102,7 @@ _All activities - light theme_
 
 ## 📱 Download on your android
 You can download the latest version of BoardChamp APK here:  
-[Download BoardChamp.apk](https://github.com/JozzefBar/BoardChamp-app/releases/download/v1.2/app-release.apk)
+[Download BoardChamp.apk](https://github.com/JozzefBar/BoardChamp-app/releases/download/v1.4/app-release.apk)
 
 ---
 
@@ -120,7 +118,7 @@ You can download the latest version of BoardChamp APK here:
 
 - [x] Fix the bug during the editing time on session - duration past midnight is calculated wrong
 - [x] Possibility to edit player's score and position - *(name cannot be changed)*
-- [ ] Better banner and visuals - *not that important*
+- [x] Better banner and visuals - *not that important*
 - [ ] Performance is not tested with a large number of game cards/sessions in history etc.
 - [x] Improve visuals - *not that important*
 - [ ] In some specific parts there is duplicity in code - *not that important*
